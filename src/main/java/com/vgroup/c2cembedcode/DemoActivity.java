@@ -69,7 +69,7 @@ public class DemoActivity extends AppCompatActivity {
         startAudioSwitch();
         resetUI();
 
-        callActionFab.setOnClickListener(v -> startCall("+910000000000"));
+        callActionFab.setOnClickListener(v -> startCall("+919893373444"));
 
         muteActionFab.setOnClickListener(view ->
                 mute()
@@ -137,6 +137,7 @@ public class DemoActivity extends AppCompatActivity {
         hangupActionFab.show();
         holdActionFab.show();
         muteActionFab.show();
+        menuAudioDeviceFab.show();
         chronometer.setVisibility(View.VISIBLE);
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
@@ -297,6 +298,7 @@ public class DemoActivity extends AppCompatActivity {
         holdActionFab.setBackgroundTintList(ColorStateList
                 .valueOf(ContextCompat.getColor(this, R.color.colorAccent)));
         muteActionFab.hide();
+        menuAudioDeviceFab.hide();
         hangupActionFab.hide();
         chronometer.setVisibility(View.INVISIBLE);
         chronometer.stop();
@@ -339,4 +341,3 @@ public class DemoActivity extends AppCompatActivity {
     }
 
 }
-
