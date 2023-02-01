@@ -36,7 +36,7 @@ public class DemoActivity extends AppCompatActivity {
     private static final String TAG = "DemoActivity";
     private static final int MIC_PERMISSION_REQUEST_CODE = 1;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
-    private String accessToken = "eyJjdHkiOiJ0d2lsaW8tZnBhO3Y9MSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJTSzhlYWU3YjhiNTllNGNmYjk1NGIxNDMzMDk2MGQxNmRjIiwiZXhwIjoxNjY3NDg1Mjg1LCJncmFudHMiOnsidm9pY2UiOnsiaW5jb21pbmciOnsiYWxsb3ciOmZhbHNlfSwib3V0Z29pbmciOnsiYXBwbGljYXRpb25fc2lkIjoiQVA4MmI4YWJmM2IyYjIyNTA5ZjllNWE4MDVmODVmMDJmYSJ9fSwiaWRlbnRpdHkiOiJ1c2VyIn0sImp0aSI6IlNLOGVhZTdiOGI1OWU0Y2ZiOTU0YjE0MzMwOTYwZDE2ZGMtMTY2NzQ4MTcyOCIsInN1YiI6IkFDMTRlYWQ2ZmYyNDk4YjMzYzdhZGQ0MmYyODMzMzZkMDQifQ.L0poxLZgoHhPUSM74-uvm3PSOOOGLTSHvgJx7pW6AZI";
+    private String accessToken = "eyJjdHkiOiJ0d2lsaW8tZnBhO3Y9MSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJTSzhlYWU3YjhiNTllNGNmYjk1NGIxNDMzMDk2MGQxNmRjIiwiZXhwIjoxNjY3ODI2NDk5LCJncmFudHMiOnsidm9pY2UiOnsiaW5jb21pbmciOnsiYWxsb3ciOmZhbHNlfSwib3V0Z29pbmciOnsiYXBwbGljYXRpb25fc2lkIjoiQVA4MmI4YWJmM2IyYjIyNTA5ZjllNWE4MDVmODVmMDJmYSJ9fSwiaWRlbnRpdHkiOiJ1c2VyIn0sImp0aSI6IlNLOGVhZTdiOGI1OWU0Y2ZiOTU0YjE0MzMwOTYwZDE2ZGMtMTY2NzgyMjg0OCIsInN1YiI6IkFDMTRlYWQ2ZmYyNDk4YjMzYzdhZGQ0MmYyODMzMzZkMDQifQ.o5M7l3X1brq5D-c5pf2IAhz4NUxcBQJAGG4LSQZQ770";
     HashMap<String, String> params = new HashMap<>();
     private Call activeCall;
     Call.Listener callListener = callListener();
@@ -341,3 +341,5 @@ public class DemoActivity extends AppCompatActivity {
     }
 
 }
+
+
