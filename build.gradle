@@ -1,77 +1,43 @@
-//apply plugin: 'com.android.application'
+buildscript {
+
+    ext.versions = [
+            'java'               : JavaVersion.VERSION_11,
+            'androidGradlePlugin': '7.0.4',
+            'googleServices'     : '4.3.10',
+            'compileSdk'         : 32,
+            'buildTools'         : '30.0.2',
+            'minSdk'             : 21,
+            'targetSdk'          : 31,
+            'material'           : '1.4.0',
+            'firebase'           : '17.6.0',
+            'voiceAndroid'       : '6.0.7',
+            'audioSwitch'        : '1.1.4',
+            'androidxLifecycle'  : '2.2.0',
+            'junit'              : '1.1.1'
+    ]
+
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:${versions.androidGradlePlugin}"
+        classpath "com.google.gms:google-services:${versions.googleServices}"
+
+//        classpath 'org.jetbrains.kotlin:kotlin-stdlib:1.6.21'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
-    id 'signing'
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
-}
-
-ext {
-    PUBLISH_GROUP_ID = 'io.github.troyvgroup'
-    PUBLISH_VERSION = '1.0.0'
-    PUBLISH_ARTIFACT_ID = 'com-vgroup-c2cembedcode'
-}
-
-apply from: "${rootDir}/scripts/publish-module.gradle"
-apply from: "${rootDir}/scripts/android.gradle"
-
-android {
-    compileSdkVersion versions.compileSdk
-    buildToolsVersion versions.buildTools
-
-    defaultConfig {
-        minSdkVersion versions.minSdk
-        targetSdkVersion versions.targetSdk
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-
-    signing {
-        sign publishing.publications
-    }
-
-}
-
-ext.playCustomRingback = {
-    def playCustomRingback  = System.getenv("playCustomRingback");
-
-    if (playCustomRingback == null) {
-        logger.log(LogLevel.INFO, "Could not locate playCustomRingback environment variable. " +
-                "Trying local.properties")
-//        Properties properties = new Properties()
-//        if (project.rootProject.file('local.properties').exists()) {
-//            properties.load(project.rootProject.file('local.properties').newDataInputStream())
-//            playCustomRingback = properties.getProperty('playCustomRingback')
-//        }
-    }
-
-    if (playCustomRingback == null) {
-        playCustomRingback = false
-    }
-
-    return playCustomRingback;
+    id 'com.android.application' version '7.1.3' apply false
+    id 'com.android.library' version '7.1.3' apply false
+    id 'org.jetbrains.kotlin.android' version '1.6.21' apply false
+//    id 'org.jetbrains.kotlin.android' version '1.6.21' apply false
 }
 
 
-dependencies {
-
-    implementation "com.twilio:audioswitch:${versions.audioSwitch}"
-    implementation "com.twilio:voice-android:${versions.voiceAndroid}"
-    implementation "com.google.android.material:material:${versions.material}"
-    implementation "com.google.firebase:firebase-messaging:${versions.firebase}"
-    implementation "androidx.lifecycle:lifecycle-extensions:${versions.androidxLifecycle}"
-    implementation 'com.android.volley:volley:1.2.1'
-    implementation 'com.google.code.gson:gson:2.9.1'
-
-   }
-apply from: "${rootDir}/scripts/publish-root.gradle"
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
