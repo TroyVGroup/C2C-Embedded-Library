@@ -2,9 +2,19 @@ plugins {
 //    id 'com.android.application'
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+
+
 //    id 'signing'
-//    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+
 }
+
+ext {
+    PUBLISH_GROUP_ID = 'io.github.troyvgroup'
+    PUBLISH_VERSION = '0.1'
+    PUBLISH_ARTIFACT_ID = 'C2CEmbedCode'
+}
+apply plugin: 'io.github.gradle-nexus.publish-plugin'
+apply from: 'publish-remote.gradle'
 
 //ext {
 //    PUBLISH_GROUP_ID = 'io.github.troyvgroup'
