@@ -25,16 +25,16 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.EditText;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+//
+//import com.android.volley.Request;
+//import com.android.volley.RequestQueue;
+//import com.android.volley.Response;
+//import com.android.volley.VolleyError;
+//import com.android.volley.toolbox.JsonObjectRequest;
+//import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.iid.FirebaseInstanceId;
+
 import com.twilio.audioswitch.AudioDevice;
 import com.twilio.audioswitch.AudioSwitch;
 import com.twilio.voice.Call;
@@ -58,8 +58,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import kotlin.Unit;
 //import kotlin.Unit;
@@ -115,7 +113,7 @@ public class VoiceActivity extends AppCompatActivity {
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 
-        coordinatorLayout = findViewById(R.id.coordinator_layout);
+//        coordinatorLayout = findViewById(R.id.coordinator_layout);
         callActionFab = findViewById(R.id.call_action_fab);
         hangupActionFab = findViewById(R.id.hangup_action_fab);
         holdActionFab = findViewById(R.id.hold_action_fab);
@@ -373,23 +371,23 @@ public class VoiceActivity extends AppCompatActivity {
     private void handleIncomingCallIntent(Intent intent) {
         if (intent != null && intent.getAction() != null) {
             String action = intent.getAction();
-            activeCallInvite = intent.getParcelableExtra(Constants.INCOMING_CALL_INVITE);
-            activeCallNotificationId = intent.getIntExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, 0);
+            activeCallInvite = intent.getParcelableExtra(C2CConstants.INCOMING_CALL_INVITE);
+            activeCallNotificationId = intent.getIntExtra(C2CConstants.INCOMING_CALL_NOTIFICATION_ID, 0);
 
             switch (action) {
-                case Constants.ACTION_INCOMING_CALL:
+                case C2CConstants.ACTION_INCOMING_CALL:
                     handleIncomingCall();
                     break;
-                case Constants.ACTION_INCOMING_CALL_NOTIFICATION:
+                case C2CConstants.ACTION_INCOMING_CALL_NOTIFICATION:
                     showIncomingCallDialog();
                     break;
-                case Constants.ACTION_CANCEL_CALL:
+                case C2CConstants.ACTION_CANCEL_CALL:
                     handleCancel();
                     break;
-                case Constants.ACTION_FCM_TOKEN:
+                case C2CConstants.ACTION_FCM_TOKEN:
                     registerForCallInvites();
                     break;
-                case Constants.ACTION_ACCEPT:
+                case C2CConstants.ACTION_ACCEPT:
                     answer();
                     break;
                 default:
@@ -418,9 +416,9 @@ public class VoiceActivity extends AppCompatActivity {
     private void registerReceiver() {
         if (!isReceiverRegistered) {
             IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction(Constants.ACTION_INCOMING_CALL);
-            intentFilter.addAction(Constants.ACTION_CANCEL_CALL);
-            intentFilter.addAction(Constants.ACTION_FCM_TOKEN);
+            intentFilter.addAction(C2CConstants.ACTION_INCOMING_CALL);
+            intentFilter.addAction(C2CConstants.ACTION_CANCEL_CALL);
+            intentFilter.addAction(C2CConstants.ACTION_FCM_TOKEN);
             LocalBroadcastManager.getInstance(this).registerReceiver(
                     voiceBroadcastReceiver, intentFilter);
             isReceiverRegistered = true;
@@ -439,7 +437,7 @@ public class VoiceActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action != null && (action.equals(Constants.ACTION_INCOMING_CALL) || action.equals(Constants.ACTION_CANCEL_CALL))) {
+            if (action != null && (action.equals(C2CConstants.ACTION_INCOMING_CALL) || action.equals(C2CConstants.ACTION_CANCEL_CALL))) {
                 /*
                  * Handle the incoming or cancelled call invite
                  */
@@ -451,12 +449,12 @@ public class VoiceActivity extends AppCompatActivity {
     private DialogInterface.OnClickListener answerCallClickListener() {
         return (dialog, which) -> {
             Log.d(TAG, "Clicked accept");
-            Intent acceptIntent = new Intent(getApplicationContext(), IncomingCallNotificationService.class);
-            acceptIntent.setAction(Constants.ACTION_ACCEPT);
-            acceptIntent.putExtra(Constants.INCOMING_CALL_INVITE, activeCallInvite);
-            acceptIntent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, activeCallNotificationId);
-            Log.d(TAG, "Clicked accept startService");
-            startService(acceptIntent);
+//            Intent acceptIntent = new Intent(getApplicationContext(), IncomingCallNotificationService.class);
+//            acceptIntent.setAction(Constants.ACTION_ACCEPT);
+//            acceptIntent.putExtra(Constants.INCOMING_CALL_INVITE, activeCallInvite);
+//            acceptIntent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, activeCallNotificationId);
+//            Log.d(TAG, "Clicked accept startService");
+//            startService(acceptIntent);
         };
     }
 
@@ -478,10 +476,10 @@ public class VoiceActivity extends AppCompatActivity {
         return (dialogInterface, i) -> {
             SoundPoolManager.getInstance(VoiceActivity.this).stopRinging();
             if (activeCallInvite != null) {
-                Intent intent = new Intent(VoiceActivity.this, IncomingCallNotificationService.class);
-                intent.setAction(Constants.ACTION_REJECT);
-                intent.putExtra(Constants.INCOMING_CALL_INVITE, activeCallInvite);
-                startService(intent);
+//                Intent intent = new Intent(VoiceActivity.this, IncomingCallNotificationService.class);
+//                intent.setAction(Constants.ACTION_REJECT);
+//                intent.putExtra(Constants.INCOMING_CALL_INVITE, activeCallInvite);
+//                startService(intent);
             }
             if (alertDialog != null && alertDialog.isShowing()) {
                 alertDialog.dismiss();
@@ -507,39 +505,9 @@ public class VoiceActivity extends AppCompatActivity {
      * Register your FCM token with Twilio to receive incoming call invites
      */
     private void registerForCallInvites() {
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
-            String fcmToken = instanceIdResult.getToken();
-            Log.i(TAG, "Registering with FCM");
-            Voice.register(accessToken, Voice.RegistrationChannel.FCM, fcmToken, registrationListener);
-            registerForIncomingCalls();
-        });
+
     }
 
-    private void registerForIncomingCalls() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://apis.vgroupinc.com/dev_softphone/utilities/twilio/ur/incoming/call";
-        JsonObjectRequest
-                jsonObjectRequest
-                = new JsonObjectRequest(
-                Request.Method.POST,
-                url,
-                null,
-                new Response.Listener() {
-                    @Override
-                    public void onResponse(Object response) {
-                        Log.d("a","a");
-                    }
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        Log.d("a","a");
-                    }
-                });
-        queue.add(jsonObjectRequest);
-    }
 
     private View.OnClickListener callActionFabClickListener() {
         return v -> {
@@ -572,7 +540,7 @@ public class VoiceActivity extends AppCompatActivity {
         SoundPoolManager.getInstance(this).stopRinging();
         activeCallInvite.accept(this, callListener);
         notificationManager.cancel(activeCallNotificationId);
-        stopService(new Intent(getApplicationContext(), IncomingCallNotificationService.class));
+//        stopService(new Intent(getApplicationContext(), IncomingCallNotificationService.class));
         setCallUI();
         if (alertDialog != null && alertDialog.isShowing()) {
             alertDialog.dismiss();
@@ -792,11 +760,12 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     private boolean isAppVisible() {
-        return ProcessLifecycleOwner
-                .get()
-                .getLifecycle()
-                .getCurrentState()
-                .isAtLeast(Lifecycle.State.STARTED);
+        return true;
+//        return ProcessLifecycleOwner
+//                .get()
+//                .getLifecycle()
+//                .getCurrentState()
+//                .isAtLeast(Lifecycle.State.STARTED);
     }
 
     private void startAudioSwitch() {

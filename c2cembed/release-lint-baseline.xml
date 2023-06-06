@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 7.1.3" type="baseline" client="gradle" dependencies="true" name="AGP (7.1.3)" variant="all" version="7.1.3">
+
+    <issue
+        id="GradleCompatible"
+        message="Dependencies using groupId `com.android.support` and `androidx.*` can not be combined but found `com.android.support:support-v4:26.1.0` and `androidx.constraintlayout:constraintlayout:2.0.1` incompatible dependencies">
+        <location
+            file="build.gradle"/>
+    </issue>
+
+    <issue
+        id="InlinedApi"
+        message="Field requires API level 31 (current min is 23): `android.Manifest.permission#BLUETOOTH_CONNECT`"
+        errorLine1="                            Manifest.permission.BLUETOOTH_CONNECT},"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/vgroup/c2cembedcode/VoiceActivity.java"
+            line="635"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use -0.48 instead of -.48 to avoid crashes on some devices"
+        errorLine1="6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z&quot; />"
+        errorLine2="                       ~~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_24dp.xml"
+            line="12"
+            column="24"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use -0.16 instead of -.16 to avoid crashes on some devices"
+        errorLine1="        android:pathData=&quot;M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98 .9 -2.09 .9 -3.28zm-4.02"
+        errorLine2="                                                  ~~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="12"
+            column="51"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use -0.43 instead of -.43 to avoid crashes on some devices"
+        errorLine1="        android:pathData=&quot;M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98 .9 -2.09 .9 -3.28zm-4.02"
+        errorLine2="                                                           ~~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="12"
+            column="60"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use -0.98 instead of -.98 to avoid crashes on some devices"
+        errorLine1="        android:pathData=&quot;M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98 .9 -2.09 .9 -3.28zm-4.02"
+        errorLine2="                                                                                  ~~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="12"
+            column="83"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use 0.56 instead of .56 to avoid crashes on some devices"
+        errorLine1="        android:pathData=&quot;M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98 .9 -2.09 .9 -3.28zm-4.02"
+        errorLine2="                                                                               ~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="12"
+            column="80"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use 0.74 instead of .74 to avoid crashes on some devices"
+        errorLine1="        android:pathData=&quot;M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98 .9 -2.09 .9 -3.28zm-4.02"
+        errorLine2="                                               ~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="12"
+            column="48"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use 0.9 instead of .9 to avoid crashes on some devices"
+        errorLine1="        android:pathData=&quot;M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98 .9 -2.09 .9 -3.28zm-4.02"
+        errorLine2="                                                                                       ~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="12"
+            column="88"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use 0.9 instead of .9 to avoid crashes on some devices"
+        errorLine1="        android:pathData=&quot;M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98 .9 -2.09 .9 -3.28zm-4.02"
+        errorLine2="                                                                                                ~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="12"
+            column="97"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use -0.06 instead of -.06 to avoid crashes on some devices"
+        errorLine1=".17 c0-.06 .02 -.11 .02 -.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27"
+        errorLine2="            ~~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="13"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use -0.11 instead of -.11 to avoid crashes on some devices"
+        errorLine1=".17 c0-.06 .02 -.11 .02 -.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27"
+        errorLine2="                     ~~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="13"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use -0.17 instead of -.17 to avoid crashes on some devices"
+        errorLine1=".17 c0-.06 .02 -.11 .02 -.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27"
+        errorLine2="                              ~~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="13"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use 0.02 instead of .02 to avoid crashes on some devices"
+        errorLine1=".17 c0-.06 .02 -.11 .02 -.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27"
+        errorLine2="                 ~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="13"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use 0.02 instead of .02 to avoid crashes on some devices"
+        errorLine1=".17 c0-.06 .02 -.11 .02 -.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27"
+        errorLine2="                          ~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="13"
+            column="27"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use 0.17 instead of .17 to avoid crashes on some devices"
+        errorLine1=".17 c0-.06 .02 -.11 .02 -.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27"
+        errorLine2="      ~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="13"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use 0.18 instead of .18 to avoid crashes on some devices"
+        errorLine1=".17 c0-.06 .02 -.11 .02 -.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27"
+        errorLine2="                                                                  ~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="13"
+            column="67"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use -0.03 instead of -.03 to avoid crashes on some devices"
+        errorLine1="3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03 .65 -.08l1.66 1.66c-.71"
+        errorLine2="                                                         ~~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="14"
+            column="58"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use -0.08 instead of -.08 to avoid crashes on some devices"
+        errorLine1="3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03 .65 -.08l1.66 1.66c-.71"
+        errorLine2="                                                                  ~~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="14"
+            column="67"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use -0.71 instead of -.71 to avoid crashes on some devices"
+        errorLine1="3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03 .65 -.08l1.66 1.66c-.71"
+        errorLine2="                                                                                 ^">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="14"
+            column="82"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use 0.22 instead of .22 to avoid crashes on some devices"
+        errorLine1="3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03 .65 -.08l1.66 1.66c-.71"
+        errorLine2="                                                ~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="14"
+            column="49"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use 0.44 instead of .44 to avoid crashes on some devices"
+        errorLine1="3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03 .65 -.08l1.66 1.66c-.71"
+        errorLine2="                                                      ~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="14"
+            column="55"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use 0.65 instead of .65 to avoid crashes on some devices"
+        errorLine1="3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03 .65 -.08l1.66 1.66c-.71"
+        errorLine2="                                                              ~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="14"
+            column="63"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use 0.33 instead of .33 to avoid crashes on some devices"
+        errorLine1=".33 -1.5 .52 -2.31 .52 -2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6"
+        errorLine2="    ~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="15"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use 0.52 instead of .52 to avoid crashes on some devices"
+        errorLine1=".33 -1.5 .52 -2.31 .52 -2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6"
+        errorLine2="             ~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="15"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use 0.52 instead of .52 to avoid crashes on some devices"
+        errorLine1=".33 -1.5 .52 -2.31 .52 -2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6"
+        errorLine2="                       ~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="15"
+            column="24"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use -0.13 instead of -.13 to avoid crashes on some devices"
+        errorLine1="6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z&quot; />"
+        errorLine2="                      ~~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="16"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use -0.45 instead of -.45 to avoid crashes on some devices"
+        errorLine1="6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z&quot; />"
+        errorLine2="                               ~~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="16"
+            column="32"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use -0.9 instead of -.9 to avoid crashes on some devices"
+        errorLine1="6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z&quot; />"
+        errorLine2="                                        ~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="16"
+            column="41"/>
+    </issue>
+
+    <issue
+        id="InvalidVectorPath"
+        message="Use 0.91 instead of .91 to avoid crashes on some devices"
+        errorLine1="6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z&quot; />"
+        errorLine2="                   ~~~">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="16"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 21"
+        errorLine1="        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/vgroup/c2cembedcode/SoundPoolManager.java"
+            line="31"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.layout.activity_main` appears to be unused"
+        errorLine1="&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="^">
+        <location
+            file="src/main/res/layout/activity_main.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.purple_200` appears to be unused"
+        errorLine1="    &lt;color name=&quot;purple_200&quot;>#FFBB86FC&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="3"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.purple_500` appears to be unused"
+        errorLine1="    &lt;color name=&quot;purple_500&quot;>#FF6200EE&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="4"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.purple_700` appears to be unused"
+        errorLine1="    &lt;color name=&quot;purple_700&quot;>#FF3700B3&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="5"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.teal_200` appears to be unused"
+        errorLine1="    &lt;color name=&quot;teal_200&quot;>#FF03DAC5&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="6"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.teal_700` appears to be unused"
+        errorLine1="    &lt;color name=&quot;teal_700&quot;>#FF018786&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="7"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.black` appears to be unused"
+        errorLine1="    &lt;color name=&quot;black&quot;>#FF000000&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="8"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.white` appears to be unused"
+        errorLine1="    &lt;color name=&quot;white&quot;>#FFFFFFFF&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="9"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.colorPrimary` appears to be unused"
+        errorLine1="    &lt;color name=&quot;colorPrimary&quot;>#f10028&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="10"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.mipmap.ic_launcher` appears to be unused"
+        errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
+        errorLine2="^">
+        <location
+            file="src/main/res/mipmap-anydpi-v26/ic_launcher.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.ic_launcher_background` appears to be unused"
+        errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="^">
+        <location
+            file="src/main/res/drawable/ic_launcher_background.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.ic_launcher_foreground` appears to be unused"
+        errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="^">
+        <location
+            file="src/main/res/drawable/ic_launcher_foreground.xml"
+            line="1"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.mipmap.ic_launcher_round` appears to be unused"
+        errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
+        errorLine2="^">
+        <location
+            file="src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.ic_mic_white_off_24dp` appears to be unused"
+        errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="^">
+        <location
+            file="src/main/res/drawable/ic_mic_white_off_24dp.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.raw.outgoing` appears to be unused">
+        <location
+            file="src/main/res/raw/outgoing.wav"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.app_name` appears to be unused"
+        errorLine1="    &lt;string name=&quot;app_name&quot;>C2C&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="2"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.answer` appears to be unused"
+        errorLine1="    &lt;string name=&quot;answer&quot;>Answer&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="5"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.decline` appears to be unused"
+        errorLine1="    &lt;string name=&quot;decline&quot;>Decline&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="6"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.style.Theme_MyApp` appears to be unused"
+        errorLine1="    &lt;style name=&quot;Theme.MyApp&quot; parent=&quot;Theme.MaterialComponents.DayNight.DarkActionBar&quot;>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/themes.xml"
+            line="3"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="TextFields"
+        message="This text field does not specify an `inputType`"
+        errorLine1="    &lt;EditText"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_call.xml"
+            line="6"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute"
+        errorLine1="    &lt;EditText"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_call.xml"
+            line="6"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;com.google.android.material.floatingactionbutton.FloatingActionButton"
+        errorLine2="     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_voice.xml"
+            line="19"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;com.google.android.material.floatingactionbutton.FloatingActionButton"
+        errorLine2="         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_voice.xml"
+            line="37"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;com.google.android.material.floatingactionbutton.FloatingActionButton"
+        errorLine2="         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_voice.xml"
+            line="48"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;com.google.android.material.floatingactionbutton.FloatingActionButton"
+        errorLine2="         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_voice.xml"
+            line="59"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;com.google.android.material.floatingactionbutton.FloatingActionButton"
+        errorLine2="         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_voice.xml"
+            line="70"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="LabelFor"
+        message="Missing accessibility label: provide either a view with an `android:labelFor` that references this view or provide an `android:hint`"
+        errorLine1="    &lt;EditText"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_call.xml"
+            line="6"
+            column="6"/>
+    </issue>
+
+</issues>

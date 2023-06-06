@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/call_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/call_icon"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/msg_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/sms_icon"
+        android:contentDescription="ab"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/email_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/mail_icon"
+        android:visibility="gone" />
+
+</LinearLayout>
