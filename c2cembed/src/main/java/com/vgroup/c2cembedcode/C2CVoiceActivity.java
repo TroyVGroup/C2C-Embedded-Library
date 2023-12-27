@@ -30,6 +30,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -43,6 +45,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //import com.google.android.material.button.MaterialButton;
 //import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -79,17 +82,8 @@ public class C2CVoiceActivity extends AppCompatActivity {
     Activity activity;
     String origin;
     String website;
-//    private static C2CVoiceActivity cVoiceActivity = null;
-//
-//    public static synchronized C2CVoiceActivity getInstance()
-//    {
-//        if (cVoiceActivity == null)
-//            cVoiceActivity = new C2CVoiceActivity();
-//
-//        return cVoiceActivity;
-//    }
-
-    public static final String TAG = "DemoActivity";
+//    private LocationManager locationManager;
+    public static final String TAG = "C2C";
     public static final int MIC_PERMISSION_REQUEST_CODE = 1;
     public static final int PERMISSIONS_REQUEST_CODE = 100;
     public HashMap<String, String> params = new HashMap<>();
@@ -102,8 +96,8 @@ public class C2CVoiceActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         audioSwitch = new AudioSwitch(getApplicationContext());
-        Log.d("a", "a");
         startAudioSwitch();
+
     }
 
 
@@ -136,24 +130,23 @@ public class C2CVoiceActivity extends AppCompatActivity {
         }, channelId, origin, url, call_icon, msg_icon, email_icon);
     }
 
-    LocationManager locationManager;
-
-    private String getLatLng() {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            return getLocation();
-        }
+    private String getLatLng(LocationManager locationManager) {
+       if (locationManager != null){
+           if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+               return getLocation(locationManager);
+           }
+       }
         return "";
     }
 
-    private String getLocation() {
+    private String getLocation(LocationManager locationManager) {
         if (ActivityCompat.checkSelfPermission(
                 activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
 
         } else {
-            Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location locationGPS = locationManager.getLastKnownLocation(LocationManager.FUSED_PROVIDER);
             if (locationGPS != null) {
                 double lat = locationGPS.getLatitude();
                 double longi = locationGPS.getLongitude();
@@ -165,8 +158,16 @@ public class C2CVoiceActivity extends AppCompatActivity {
         return "";
     }
 
-    public void getCallDetails(@NotNull String channelId, @NotNull Modes modes, @NotNull String id) {
-        if (modes.channel.preferences.isVerificationRequired()) {
+    public void getCallDetails(@NotNull String channelId, @NotNull Modes modes, @NotNull String id,  Object object) {
+        boolean isVerificationRequired = false;
+        if(id == C2CConstants.CALL){
+            isVerificationRequired = modes.channel.preferences.isCallVerificationRequired();
+        }else if(id == C2CConstants.EMAIL){
+            isVerificationRequired = modes.channel.preferences.isEmailVerificationRequired();
+        }else {
+            isVerificationRequired = modes.channel.preferences.isSMSVerificationRequired();
+        }
+        if (isVerificationRequired) {
             Dialog dialog = new Dialog(activity);
             dialog.setContentView(R.layout.popup_dialog);
             Window window = dialog.getWindow();
@@ -178,10 +179,10 @@ public class C2CVoiceActivity extends AppCompatActivity {
             }
             Spinner countrySpinner = dialog.findViewById(R.id.country_spinner);
             ArrayAdapter aa = new ArrayAdapter(
-                    activity, android.R.layout.simple_spinner_item,
+                    activity, R.layout.c2cspinner,
                     countries
             );
-            aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            aa.setDropDownViewResource(R.layout.c2cspinner_dropdown);
             countrySpinner.setAdapter(aa);
             final String[] selectedCountry = {""};
             countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -226,7 +227,28 @@ public class C2CVoiceActivity extends AppCompatActivity {
             TextView termsTextView = dialog.findViewById(R.id.Terms_and_condition_text);
             ProgressBar progressBar = dialog.findViewById(R.id.progressBar);
             TextView poweredByTextView = dialog.findViewById(R.id.poweredByTextView);
+            TextView count = dialog.findViewById(R.id.count);
             titleTextView.setText(id);
+
+            if(id == C2CConstants.SMS){
+                count.setVisibility(View.VISIBLE);
+                messageEditText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        count.setText(s.toString().length() + "/160");
+                    }
+                });
+            }
 
             poweredByTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -238,13 +260,22 @@ public class C2CVoiceActivity extends AppCompatActivity {
                             WindowManager.LayoutParams.WRAP_CONTENT);
 
                     WebView webView = dialog.findViewById(R.id.webview);
+                    ProgressBar progressBarWebView = dialog.findViewById(R.id.progressBar);
                     TextView cancelTextView = dialog.findViewById(R.id.cancelTextView);
 
                     webView.getSettings().setLoadsImagesAutomatically(true);
                     webView.getSettings().setJavaScriptEnabled(true);
                     webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-                    webView.loadUrl("https://contexttocall.com/");
 
+                    webView.setWebChromeClient(new WebChromeClient() {
+                        public void onProgressChanged(WebView view, int progress) {
+                            progressBarWebView.setVisibility(View.VISIBLE);
+                            if(progress == 100){
+                                progressBarWebView.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+                    webView.loadUrl("https://contexttocall.com/");
                     cancelTextView.setOnClickListener(view1 ->
                             dialog.cancel());
                     dialog.show();
@@ -264,11 +295,23 @@ public class C2CVoiceActivity extends AppCompatActivity {
                             WindowManager.LayoutParams.WRAP_CONTENT);
 
                     WebView webView = dialog.findViewById(R.id.webview);
+                    ProgressBar progressBarWebView = dialog.findViewById(R.id.progressBar);
                     TextView cancelTextView = dialog.findViewById(R.id.cancelTextView);
 
                     webView.getSettings().setLoadsImagesAutomatically(true);
                     webView.getSettings().setJavaScriptEnabled(true);
+                    WebSettings settings = webView.getSettings();
+                    settings.setDomStorageEnabled(true);
                     webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+                    webView.setWebChromeClient(new WebChromeClient() {
+                        public void onProgressChanged(WebView view, int progress) {
+                            progressBarWebView.setVisibility(View.VISIBLE);
+                            if(progress == 100){
+                                progressBarWebView.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+
                     webView.loadUrl("https://app.contexttocall.com/terms");
 
                     cancelTextView.setOnClickListener(view1 ->
@@ -309,12 +352,17 @@ public class C2CVoiceActivity extends AppCompatActivity {
                             showError("Message", "Please enter valid email address.");
                         } else if (TextUtils.isEmpty(messageEditText.getText().toString())) {
                             showError("Message", "Please enter message here.");
-                        } else if (modes.channel.preferences.email && modes.channel.preferences.verifyemail && emailOTPEditText.getTag().toString().equals("false")) {
+                        } else if (modes.channel.preferences.isEmail(id) && modes.channel.preferences.isVerifyemail(id) && emailOTPEditText.getTag().toString().equals("false")) {
                             showError("Message", "Please enter Email OTP.");
-                        } else if (modes.channel.preferences.contact && modes.channel.preferences.verifycontact && mobileOTPEditText.getTag().toString().equals("false")) {
+                        } else if (modes.channel.preferences.isContact(id) && modes.channel.preferences.isVerifycontact(id) && mobileOTPEditText.getTag().toString().equals("false")) {
                             showError("Message", "Please enter Contact number OTP.");
                         } else {
+                            String location ="";
+                            if (object instanceof LocationManager){
+                                location = getLatLng((LocationManager) object);
+                            }
                             var initiateC2C = new InitiateC2C();
+//                            initiateC2C.setLatLong(location);
                             initiateC2C.setChannelId(channelId);
                             initiateC2C.setName(
                                     firstNameEdittxt.getText().toString() + " " + lastNameEdittxt.getText().toString());
@@ -323,6 +371,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
                             initiateC2C.setMailotp(emailOTPEditText.getText().toString());
 
                             initiateC2C.setNumber(numberEdittxt.getText().toString());
+//                            initiateC2C.setLatLong(location);
                             for (Country country : modes.channel.countries) {
                                 if ((country.code + " " + country.country).contentEquals(selectedCountry[0])) {
                                     initiateC2C.setCountrycode(country.code);
@@ -337,6 +386,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
                             } else {
 
                                 if (id.equals(C2CConstants.SMS)) {
+                                    initiateC2C.setEmail(emailEditText.getText().toString());
                                     initiateC2C.setMessage(messageEditText.getText().toString());
                                     sendMessage(initiateC2C, dialog, progressBar);
                                 } else if (id.equals(C2CConstants.EMAIL)) {
@@ -388,7 +438,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
                 }
             });
 
-            if (modes.channel.preferences.contact && modes.channel.preferences.verifycontact) {
+            if (modes.channel.preferences.isContact(id) && modes.channel.preferences.isVerifycontact(id)) {
 
                 mobileOTPEditText.addTextChangedListener(new TextWatcher() {
 
@@ -424,7 +474,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
                 });
             }
 //            modes.channel.preferences.contact && modes.channel.preferences.verifycontact
-            if (modes.channel.preferences.email && modes.channel.preferences.verifyemail) {
+            if (modes.channel.preferences.isEmail(id) && modes.channel.preferences.isVerifyemail(id)) {
                 emailOTPEditText.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -454,20 +504,21 @@ public class C2CVoiceActivity extends AppCompatActivity {
             }
             mobileOTPLayout.setVisibility(View.GONE);
             emailOTPLayout.setVisibility(View.GONE);
-            nameLayout.setVisibility(modes.channel.preferences.name ? View.VISIBLE : View.GONE);
-            numberLayout.setVisibility(modes.channel.preferences.contact ? View.VISIBLE : View.GONE);
-            emailLayout.setVisibility(modes.channel.preferences.email ? View.VISIBLE : View.GONE);
-            messageLayout.setVisibility(modes.channel.preferences.message ? View.VISIBLE : View.GONE);
-            codeLayout.setVisibility(modes.channel.preferences.verifycontact ? View.VISIBLE : View.GONE);
+            nameLayout.setVisibility(modes.channel.preferences.isName(id) ? View.VISIBLE : View.GONE);
+            numberLayout.setVisibility(modes.channel.preferences.isContact(id) ? View.VISIBLE : View.GONE);
+            emailLayout.setVisibility(modes.channel.preferences.isEmail(id) ? View.VISIBLE : View.GONE);
+            messageLayout.setVisibility(modes.channel.preferences.isMessage(id) ? View.VISIBLE : View.GONE);
+            codeLayout.setVisibility(modes.channel.preferences.isVerifycontact(id) ? View.VISIBLE : View.GONE);
 
-            emailVerifyLayout.setVisibility(modes.channel.preferences.verifyemail ? View.VISIBLE : View.GONE);
+            emailVerifyLayout.setVisibility(modes.channel.preferences.isVerifyemail(id) ? View.VISIBLE : View.GONE);
 
             emailOTPEditText.setTag(false);
             mobileOTPEditText.setTag(false);
 
             dialog.setCancelable(false);
             dialog.show();
-        } else {
+        }
+        else {
             Dialog dialog = new Dialog(activity);
             dialog.setContentView(R.layout.popup_dialog);
             Window window = dialog.getWindow();
@@ -491,14 +542,63 @@ public class C2CVoiceActivity extends AppCompatActivity {
             TextView titleTextView = dialog.findViewById(R.id.title_txt_view);
             TextView termsTextView = dialog.findViewById(R.id.Terms_and_condition_text);
             ProgressBar progressBar = dialog.findViewById(R.id.progressBar);
+            TextView count = dialog.findViewById(R.id.count);
+            if (id.equals(C2CConstants.SMS)) {
+                count.setVisibility(View.VISIBLE);
+                messageEditText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        count.setText(s.toString().length() + "/160");
+                    }
+                });
+            }
             titleTextView.setText(id);
 
             SpannableString ss = new SpannableString("I agree to the terms and conditions");
+
+
             ClickableSpan clickableSpan = new ClickableSpan() {
                 @Override
                 public void onClick(@NonNull View view) {
+                    Dialog dialog = new Dialog(activity);
+                    dialog.setContentView(R.layout.web_view_popup);
+                    Window window = dialog.getWindow();
+                    window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                            WindowManager.LayoutParams.WRAP_CONTENT);
 
+                    WebView webView = dialog.findViewById(R.id.webview);
+                    ProgressBar progressBarWebView = dialog.findViewById(R.id.progressBar);
+                    TextView cancelTextView = dialog.findViewById(R.id.cancelTextView);
+
+                    webView.getSettings().setLoadsImagesAutomatically(true);
+                    webView.getSettings().setJavaScriptEnabled(true);
+                    WebSettings settings = webView.getSettings();
+                    settings.setDomStorageEnabled(true);
+                    webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+                    webView.setWebChromeClient(new WebChromeClient() {
+                        public void onProgressChanged(WebView view, int progress) {
+                            progressBarWebView.setVisibility(View.VISIBLE);
+                            if(progress == 100){
+                                progressBarWebView.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+
+                    webView.loadUrl("https://app.contexttocall.com/terms");
+
+                    cancelTextView.setOnClickListener(view1 ->
+                            dialog.cancel());
+                    dialog.show();
                 }
 
                 @Override
@@ -529,7 +629,12 @@ public class C2CVoiceActivity extends AppCompatActivity {
                 public void onClick(View view) {
 //                    hideKeyboard(view);
                     if (termsCheckBox.isChecked()) {
-                        InitiateC2C initiateC2C = new InitiateC2C();
+                        String location ="";
+                        if (object instanceof LocationManager){
+                            location = getLatLng((LocationManager) object);
+                        }
+                        var initiateC2C = new InitiateC2C();
+                        initiateC2C.setLatLong(location);
                         initiateC2C.setChannelId(channelId);
                         if (id.equals(C2CConstants.CALL)) {
                             initiateCall(initiateC2C, dialog, progressBar);
@@ -713,6 +818,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         HashMap<String, String> map = new HashMap<>();
         String jsonString = new Gson().toJson(initiateC2C);
+        Log.d("jsonString",jsonString);
         new NetworkManager().sendSMS(new NetworkEventListener() {
             @Override
             public void OnSuccess(Object object) {
@@ -736,44 +842,59 @@ public class C2CVoiceActivity extends AppCompatActivity {
 
     }
 
-    private void initiateCall(InitiateC2C initiateC2C, Dialog dialog, ProgressBar progressBar) {
+
+    Chronometer chronometer;
+    ImageView holdActionFab;
+    ImageView muteActionFab ;
+    ImageView hangUpActionFab;
+    ImageView dialPadFab;
+    Dialog callConnectedDialog;
+    private void initiateCall(InitiateC2C initiateC2C, Dialog dialogDismiss, ProgressBar progressBar) {
+//
+
         progressBar.setVisibility(View.VISIBLE);
         HashMap<String, String> map = new HashMap<>();
         String jsonString = new Gson().toJson(initiateC2C);
+//        getLatLng();
         new NetworkManager().initiateCall(new NetworkEventListener() {
             @Override
             public void OnSuccess(Object object) {
                 TokenPojo tokenPojo = ((TokenPojo) object);
                 if (tokenPojo.status == 200) {
                     progressBar.setVisibility(View.GONE);
-                    dialog.dismiss();
+                    dialogDismiss.dismiss();
                     startCall(
                             tokenPojo.verified.call,
                             tokenPojo.token.value,
                             activity
                     );
-                    Dialog dialog = new Dialog(activity);
-                    dialog.setContentView(R.layout.call_connected);
-                    Chronometer chronometer = dialog.findViewById(R.id.chronometer);
-                    ImageView holdActionFab = dialog.findViewById(R.id.hold_action_fab);
-                    ImageView muteActionFab = dialog.findViewById(R.id.mute_action_fab);
-                    ImageView hangUpActionFab = dialog.findViewById(R.id.hangup_action_fab);
-                    ImageView dialPadFab = dialog.findViewById(R.id.dialpad_fab);
-                    LinearLayout dialPadLayout = dialog.findViewById(R.id.dialPadLayout);
+                    callConnectedDialog = new Dialog(activity);
+                    callConnectedDialog.setContentView(R.layout.call_connected);
+                     chronometer = callConnectedDialog.findViewById(R.id.chronometer);
+                     holdActionFab = callConnectedDialog.findViewById(R.id.hold_action_fab);
+                     muteActionFab = callConnectedDialog.findViewById(R.id.mute_action_fab);
+                     hangUpActionFab = callConnectedDialog.findViewById(R.id.hangup_action_fab);
+                     dialPadFab = callConnectedDialog.findViewById(R.id.dialpad_fab);
+                    LinearLayout dialPadLayout = callConnectedDialog.findViewById(R.id.dialPadLayout);
 
-                    EditText numberEditText = dialog.findViewById(R.id.numberEditText);
-                    RelativeLayout one = dialog.findViewById(R.id.one);
-                    RelativeLayout two = dialog.findViewById(R.id.two);
-                    RelativeLayout three = dialog.findViewById(R.id.three);
-                    RelativeLayout four = dialog.findViewById(R.id.four);
-                    RelativeLayout five = dialog.findViewById(R.id.five);
-                    RelativeLayout six = dialog.findViewById(R.id.six);
-                    RelativeLayout seven = dialog.findViewById(R.id.seven);
-                    RelativeLayout eight = dialog.findViewById(R.id.eight);
-                    RelativeLayout nine = dialog.findViewById(R.id.nine);
-                    RelativeLayout zero = dialog.findViewById(R.id.zero);
-                    RelativeLayout asterisk = dialog.findViewById(R.id.asterisk);
-                    RelativeLayout hash = dialog.findViewById(R.id.hash);
+                    EditText numberEditText = callConnectedDialog.findViewById(R.id.numberEditText);
+                    RelativeLayout one = callConnectedDialog.findViewById(R.id.one);
+                    RelativeLayout two = callConnectedDialog.findViewById(R.id.two);
+                    RelativeLayout three = callConnectedDialog.findViewById(R.id.three);
+                    RelativeLayout four = callConnectedDialog.findViewById(R.id.four);
+                    RelativeLayout five = callConnectedDialog.findViewById(R.id.five);
+                    RelativeLayout six = callConnectedDialog.findViewById(R.id.six);
+                    RelativeLayout seven = callConnectedDialog.findViewById(R.id.seven);
+                    RelativeLayout eight = callConnectedDialog.findViewById(R.id.eight);
+                    RelativeLayout nine = callConnectedDialog.findViewById(R.id.nine);
+                    RelativeLayout zero = callConnectedDialog.findViewById(R.id.zero);
+                    RelativeLayout asterisk = callConnectedDialog.findViewById(R.id.asterisk);
+                    RelativeLayout hash = callConnectedDialog.findViewById(R.id.hash);
+
+                    hangUpActionFab.setEnabled(false);
+                    dialPadFab.setEnabled(false);
+                    holdActionFab.setEnabled(false);
+
                     StringBuffer digits = new StringBuffer();
 
                     one.setOnClickListener(view -> {
@@ -850,22 +971,23 @@ public class C2CVoiceActivity extends AppCompatActivity {
 
                     hangUpActionFab.setOnClickListener(view -> {
                         disconnect();
-                        dialog.dismiss();
+                        callConnectedDialog.dismiss();
                     });
                     dialPadFab.setOnClickListener(view -> {
                         if (dialPadLayout.getVisibility() == View.VISIBLE) {
                             dialPadLayout.setVisibility(View.GONE);
                             digits.delete(0, digits.length());
+                            applyFabState(dialPadFab, false, activity);
                         } else {
                             dialPadLayout.setVisibility(View.VISIBLE);
+                            applyFabState(dialPadFab, true, activity);
                         }
                     });
 
-                    chronometer.setBase(SystemClock.elapsedRealtime());
-                    chronometer.start();
-                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                    dialog.setCancelable(false);
-                    dialog.show();
+
+                    callConnectedDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    callConnectedDialog.setCancelable(false);
+                    callConnectedDialog.show();
 
 
                 } else {
@@ -946,12 +1068,20 @@ public class C2CVoiceActivity extends AppCompatActivity {
     private void applyFabState(ImageView button, boolean enabled, Context context) {
         // Set fab as pressed when call is on hold
 
+//        ColorStateList colorStateList = enabled ?
+//                ColorStateList.valueOf(ContextCompat.getColor(context,
+//                        R.color.teal_200)) :
+//                ColorStateList.valueOf(ContextCompat.getColor(context,
+//                        R.color.colorAccent));
         ColorStateList colorStateList = enabled ?
-                ColorStateList.valueOf(ContextCompat.getColor(context,
-                        R.color.teal_200)) :
-                ColorStateList.valueOf(ContextCompat.getColor(context,
-                        R.color.colorAccent));
-
+                ColorStateList.valueOf(Color.parseColor("#00A6FF")) :
+                ColorStateList.valueOf(Color.parseColor("#b0bec5"));
+//        <!--00A6FF-->
+//        if (enabled){
+            button.setImageTintList(colorStateList);
+//        }else {
+//            button.setColorFilter();
+//        }
 //        button.setBackgroundTintList(colorStateList);
     }
 
@@ -960,6 +1090,9 @@ public class C2CVoiceActivity extends AppCompatActivity {
             return;
         }
         params.put("To", mobileNumber);
+        params.put("From", "+14353254881");
+        params.put("Env", "d");
+
         ConnectOptions connectOptions = new ConnectOptions.Builder(token)
                 .params(params)
                 .build();
@@ -1009,6 +1142,20 @@ public class C2CVoiceActivity extends AppCompatActivity {
 //                if (BuildConfig.playCustomRingback) {
 //                SoundPoolManager.getInstance(getApplicationContext()).playRinging();
 //                }
+                if(chronometer !=null){
+                    chronometer.setBase(SystemClock.elapsedRealtime());
+                    chronometer.start();
+                }
+                if (hangUpActionFab != null){
+                    hangUpActionFab.setEnabled(true);
+                }
+                if (dialPadFab != null){
+                    dialPadFab.setEnabled(true);
+                }
+                if (holdActionFab !=null){
+                    holdActionFab.setEnabled(true);
+                }
+//                Toast.makeText(activity, "Ringing", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -1027,6 +1174,10 @@ public class C2CVoiceActivity extends AppCompatActivity {
                     Log.e(TAG, message);
 
                 }
+                Toast.makeText(activity, "Connect failure", Toast.LENGTH_SHORT).show();
+                if (callConnectedDialog != null && callConnectedDialog.isShowing()){
+                    callConnectedDialog.dismiss();
+                }
             }
 
             @Override
@@ -1036,17 +1187,15 @@ public class C2CVoiceActivity extends AppCompatActivity {
 //                if (BuildConfig.playCustomRingback) {
                     SoundPoolManager.getInstance(getApplicationContext()).stopRinging();
 //                }
-                    Log.d(TAG, "Connected");
                     activeCall = call;
-
                 }
+                Log.d(TAG, "Connected");
+                Toast.makeText(activity, "Connected", Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onReconnecting(@NonNull Call call, @NonNull CallException callException) {
                 Log.d(TAG, "onReconnecting");
             }
-
             @Override
             public void onReconnected(@NonNull Call call) {
                 Log.d(TAG, "onReconnected");
@@ -1069,6 +1218,10 @@ public class C2CVoiceActivity extends AppCompatActivity {
                         Log.e(TAG, message);
 //                    Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG).show();
                     }
+                }
+                Toast.makeText(activity, "Disconnected", Toast.LENGTH_SHORT).show();
+                if (callConnectedDialog != null && callConnectedDialog.isShowing()){
+                    callConnectedDialog.dismiss();
                 }
             }
 

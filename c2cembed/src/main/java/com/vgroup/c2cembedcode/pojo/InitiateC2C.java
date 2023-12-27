@@ -10,6 +10,8 @@ public class InitiateC2C {
     private String mailotp;
     private String countrycode;
 
+    private String latLong;
+
     public String getChannelId() {
         return channelId;
     }
@@ -72,5 +74,13 @@ public class InitiateC2C {
 
     public void setCountrycode(String countrycode) {
         this.countrycode = countrycode;
+    }
+
+    public String getLatLong() {
+        return latLong;
+    }
+
+    public void setLatLong(String latLong) {
+        this.latLong = latLong;
     }
 }

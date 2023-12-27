@@ -18,12 +18,13 @@ import java.util.Map;
 
 public class NetworkManager {
 
-    public void getModes(final NetworkEventListener listener, String channelId, String origin, String c2cUrl, ImageView call_icon, ImageView msg_icon, ImageView email_icon) {
+    public void getModes(final NetworkEventListener listener, String channelId, String origin, String c2cPackage, ImageView call_icon, ImageView msg_icon, ImageView email_icon) {
         String url = C2CConstants.CHANNEL_MODES + channelId;
         HashMap<String, String> headers = new HashMap<>();
-        headers.put("Origin", origin);
-        headers.put("Referer", origin);
-        headers.put("c2c-request", c2cUrl);
+//        headers.put("Origin", origin);
+//        headers.put("Referer", origin);
+//        headers.put("c2c-request", c2cUrl);
+        headers.put("request-package", c2cPackage);
         headers.put("Content-Type","application/json");
         headers.put("Accept", "application/json");
 
@@ -53,15 +54,16 @@ public class NetworkManager {
         requestHttp.execute();
     }
 
-    public void sendEmail(final NetworkEventListener listener, String data, String origin, String website) {
+    public void sendEmail(final NetworkEventListener listener, String data, String origin, String c2cPackage) {
 
         String url = C2CConstants.SEND_EMAIL;
         HashMap<String, String> headers = new HashMap<>();
-        headers.put("C2c-Request", website);
-        headers.put("C2c-Latlong", "23.2669986,77.4357627");
-
-        headers.put("Origin", origin);
-        headers.put("Referer", origin);
+//        headers.put("C2c-Request", website);
+//        headers.put("C2c-Latlong", "23.2669986,77.4357627");
+//
+//        headers.put("Origin", origin);
+//        headers.put("Referer", origin);
+        headers.put("request-package", c2cPackage);
         headers.put("Content-Type","application/json");
         headers.put("Accept", "application/json");
 
@@ -80,14 +82,15 @@ public class NetworkManager {
 
     }
 
-    public void sendSMS(final NetworkEventListener listener, String data, String origin, String website, String latLong) {
+    public void sendSMS(final NetworkEventListener listener, String data, String origin, String c2cPackage, String latLong) {
 
         String url = C2CConstants.SEND_SMS;
         HashMap<String, String> headers = new HashMap<String, String>();
-        headers.put("Origin", origin);
-        headers.put("Referer", origin);
-        headers.put("c2c-request", website);
-        headers.put("c2c-latlong", "23.222,23.55555");
+//        headers.put("Origin", origin);
+//        headers.put("Referer", origin);
+//        headers.put("c2c-request", website);
+//        headers.put("c2c-latlong", "23.222,23.55555");
+        headers.put("request-package", c2cPackage);
         headers.put("Content-Type","application/json");
         headers.put("Accept", "application/json");
 
@@ -105,13 +108,14 @@ public class NetworkManager {
         requestHttp.execute();
     }
 
-    public void verifyEmailOTP(final NetworkEventListener listener, String data,String origin, String website) {
+    public void verifyEmailOTP(final NetworkEventListener listener, String data,String origin, String c2cPackage) {
 
         String url = C2CConstants.VERIFY_EMAIL_OTP;
         HashMap<String, String> headers = new HashMap<>();
-        headers.put("Origin", origin);
-        headers.put("Referer", origin);
-        headers.put("c2c-request", website);
+//        headers.put("Origin", origin);
+//        headers.put("Referer", origin);
+//        headers.put("c2c-request", website);
+        headers.put("request-package", c2cPackage);
         headers.put("Content-Type","application/json");
         headers.put("Accept", "application/json");
 
@@ -130,13 +134,14 @@ public class NetworkManager {
 
     }
 
-    public void verifyMobileOTP(final NetworkEventListener listener, String data, String origin, String website) {
+    public void verifyMobileOTP(final NetworkEventListener listener, String data, String origin, String c2cPackage) {
 
         String url = C2CConstants.VERIFY_SMS_OTP;
         HashMap<String, String> headers = new HashMap<>();
-        headers.put("Origin", origin);
-        headers.put("Referer", origin);
-        headers.put("c2c-request", website);
+//        headers.put("Origin", origin);
+//        headers.put("Referer", origin);
+//        headers.put("c2c-request", website);
+        headers.put("request-package", c2cPackage);
         headers.put("Content-Type","application/json");
         headers.put("Accept", "application/json");
 
@@ -155,13 +160,14 @@ public class NetworkManager {
 
     }
 
-    public void getOTPForEmail(final NetworkEventListener listener, String channelId, String emailID, String origin, String website) {
+    public void getOTPForEmail(final NetworkEventListener listener, String channelId, String emailID, String origin, String c2cPackage) {
 
         String url = C2CConstants.EMAIL_OTP;
         HashMap<String, String> headers = new HashMap<>();
-        headers.put("Origin", origin);
-        headers.put("Referer", origin);
-        headers.put("c2c-request", website);
+//        headers.put("Origin", origin);
+//        headers.put("Referer", origin);
+//        headers.put("c2c-request", website);
+        headers.put("request-package", c2cPackage);
         headers.put("Content-Type","application/json");
         headers.put("Accept", "application/json");
 
@@ -186,13 +192,14 @@ public class NetworkManager {
 
     }
 
-    public void initiateCall(final NetworkEventListener listener, String data, Context context, String origin, String website) {
+    public void initiateCall(final NetworkEventListener listener, String data, Context context, String origin, String c2cPackage) {
 
         String url = C2CConstants.INITIATE_CALL;
         HashMap<String, String> headers = new HashMap<>();
-        headers.put("Origin", origin);
-        headers.put("Referer", origin);
-        headers.put("c2c-request", website);
+//        headers.put("Origin", origin);
+//        headers.put("Referer", origin);
+//        headers.put("c2c-request", website);
+        headers.put("request-package", c2cPackage);
         headers.put("Content-Type","application/json");
         headers.put("Accept", "application/json");
 
@@ -200,7 +207,7 @@ public class NetworkManager {
             @Override
             public void processFinish(Object obj) {
                 String callAuth = ((CallPojo) obj).callauth.id;
-                getToken(listener, callAuth, context, origin, website);
+                getToken(listener, callAuth, context, origin, c2cPackage);
             }
 
             @Override
@@ -212,14 +219,15 @@ public class NetworkManager {
 
     }
 
-    public void getToken(final NetworkEventListener listener, String authID, Context context, String origin, String website) {
+    public void getToken(final NetworkEventListener listener, String authID, Context context, String origin, String c2cPackage) {
 
         String url = C2CConstants.GENERATE_TOKEN;
         HashMap<String, String> headers = new HashMap<>();
-        headers.put("Origin", origin);
-        headers.put("Referer", origin);
-        headers.put("c2c-request", website);
-        headers.put("c2c-latlong", "23.2669986,77.4357627");
+//        headers.put("Origin", origin);
+//        headers.put("Referer", origin);
+//        headers.put("c2c-request", website);
+//        headers.put("c2c-latlong", "23.2669986,77.4357627");
+        headers.put("request-package", c2cPackage);
         headers.put("Content-Type","application/json");
         headers.put("Accept", "application/json");
 
@@ -243,17 +251,18 @@ public class NetworkManager {
 
     }
 
-    public void getOTPForSMS(final NetworkEventListener listener, String channelId, String code, String number, String origin, String website) {
+    public void getOTPForSMS(final NetworkEventListener listener, String channelId, String code, String number, String origin, String c2cPackage) {
 
         String url = C2CConstants.SMS_OTP;
         HashMap<String, String> headers = new HashMap<>();
-        headers.put("Origin", origin);
-        headers.put("Referer", origin);
-        headers.put("c2c-request", website);
+//        headers.put("Origin", origin);
+//        headers.put("Referer", origin);
+//        headers.put("c2c-request", website);
+        headers.put("request-package", c2cPackage);
         headers.put("Content-Type","application/json");
         headers.put("Accept", "application/json");
 
-        Map<String, String> data = new HashMap<String, String>();
+        Map<String, String> data = new HashMap<>();
         data.put("channelid", channelId);
         data.put("countrycode", code);
         data.put("number", number);

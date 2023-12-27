@@ -13,11 +13,14 @@
         <EditText
             android:id="@+id/numberEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:gravity="center"
             android:lineSpacingExtra="15sp"
             android:lineSpacingMultiplier="0.8"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:backgroundTint="#00a6ff"
+            android:textColor="#000000"
+                       />
     </LinearLayout>
 
     <LinearLayout

@@ -16,7 +16,8 @@ public class C2CConstants {
     public static final String CALL = "CALL";
     public static final String SMS = "SMS";
     public static final String EMAIL = "EMAIL";
-    public static final String BASE_URL = "https://apis.vgroupinc.com/dev_c2c";
+//    public static final String BASE_URL = "https://apis.vgroupinc.com/dev_c2c"; // Prod
+    public static final String BASE_URL = "https://dev-api.vgroupinc.com/dev_c2c"; // Prod
     public static final String CHANNEL_MODES = "/product/channel/ur/modes/";
     public static final String INITIATE_CALL = "/utilities/twilio/ur/initiate/call";
     public static final String GENERATE_TOKEN = "/utilities/twilio/ur/generate/token";
