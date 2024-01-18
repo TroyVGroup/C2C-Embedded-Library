@@ -119,8 +119,8 @@ publishing {
     publications{
         release(MavenPublication){
             groupId = 'com.github.naresh-vgroupinc'
-            artifactId = 'C2C-Embedded'
-            version = "1.2"
+            artifactId = 'C2C-Embedded-Library'
+            version = "0.0.1"
         }
 
     }
@@ -131,8 +131,8 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.release
                 groupId = 'com.github.naresh-vgroupinc'
-                artifactId = 'C2C-Embedded'
-                version = "1.2"
+                artifactId = 'C2C-Embedded-Library'
+                version = "0.0.1"
             }
         }
     }
