@@ -55,6 +55,9 @@ android {
         abortOnError false
         absolutePaths false
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.2.0-alpha08'
+    }
 }
 // 4. Add below line
 //===============================
@@ -120,7 +123,7 @@ publishing {
         release(MavenPublication){
             groupId = 'com.github.naresh-vgroupinc'
             artifactId = 'C2C-Embedded-Library'
-            version = "0.0.1"
+            version = "0.2.0"
         }
 
     }
@@ -132,7 +135,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.naresh-vgroupinc'
                 artifactId = 'C2C-Embedded-Library'
-                version = "0.0.1"
+                version = "0.2.0"
             }
         }
     }

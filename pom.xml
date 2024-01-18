@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.naresh-vgroupinc</groupId> <!-- com.github.example-->
     <artifactId>C2C-Embedded-Library</artifactId> <!-- com-example-customtoast -->
-    <version>0.0.1</version> <!-- 1.0 -->
+    <version>0.2.0</version> <!-- 1.0 -->
     <packaging>pom</packaging>
     <description>First version release</description>
 </project>
