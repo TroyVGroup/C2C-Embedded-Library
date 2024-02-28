@@ -1,5 +1,7 @@
 package com.vgroup.c2c_embedded_library.pojo;
 
+import android.text.TextUtils;
+
 public class InitiateC2C {
     private String channelId;
     private String email;
@@ -77,6 +79,9 @@ public class InitiateC2C {
     }
 
     public String getLatLong() {
+        if (TextUtils.isEmpty(latLong)){
+            return "";
+        }
         return latLong;
     }
 

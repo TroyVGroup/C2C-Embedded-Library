@@ -57,6 +57,7 @@ import com.twilio.voice.Call;
 import com.twilio.voice.CallException;
 import com.twilio.voice.ConnectOptions;
 import com.twilio.voice.Voice;
+import com.vgroup.c2c_embedded_library.pojo.C2CAddress;
 import com.vgroup.c2c_embedded_library.pojo.Country;
 import com.vgroup.c2c_embedded_library.pojo.InitiateC2C;
 import com.vgroup.c2c_embedded_library.pojo.Modes;
@@ -71,6 +72,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -80,35 +82,31 @@ import androidx.core.content.ContextCompat;
 import kotlin.Unit;
 
 public class C2CVoiceActivity extends AppCompatActivity {
-    Activity activity;
-    String origin;
-    String website;
-//    private LocationManager locationManager;
+    private Activity activity;
+    private String origin;
     public static final String TAG = "C2C";
-    public static final int MIC_PERMISSION_REQUEST_CODE = 1;
-    public static final int PERMISSIONS_REQUEST_CODE = 100;
     public HashMap<String, String> params = new HashMap<>();
     public Call activeCall;
     public Call.Listener callListener = callListener();
     public AudioSwitch audioSwitch;
-
+    private C2CAddress c2CAddress;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         audioSwitch = new AudioSwitch(getApplicationContext());
         startAudioSwitch();
-
     }
-
-
-    public C2CVoiceActivity(Activity activity, String origin, String website) {
+    public C2CVoiceActivity(Activity activity) {
         this.activity = activity;
-        this.origin = origin;
-        this.website = website;
+        try {
+            origin = activity.getClass().getPackage().getName();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
-    public void getModes(@NotNull String channelId, String origin, String url, final Modes modes, ImageView call_icon, ImageView msg_icon, ImageView email_icon) {
+    public void getModes(@NotNull String channelId, final Modes modes, ImageView call_icon, ImageView msg_icon, ImageView email_icon) {
         HashMap<String, String> map = new HashMap<>();
         new NetworkManager().getModes(new NetworkEventListener() {
             @Override
@@ -122,44 +120,43 @@ public class C2CVoiceActivity extends AppCompatActivity {
                 } else {
                     showError("Error", String.valueOf(modes1.message));
                 }
+                getIP();
+            }
+
+            @Override
+            public void OnError(String exception) {
+            }
+        }, channelId, origin, call_icon, msg_icon, email_icon);
+    }
+
+    public void getIP(){
+        HashMap<String, String> map = new HashMap<>();
+        new NetworkManager().getDeviceIP(new NetworkEventListener() {
+            @Override
+            public void OnSuccess(Object object) {
+                Log.d("a","a");
+                if (activity != null){
+                    c2CAddress = (C2CAddress) object;
+                }
+//                Modes modes1 = ((Modes) object);
+//                if (modes1.status == 200) {
+//                    modes.setStatus(modes1.status);
+//                    modes.setMessage(modes1.message);
+//                    modes.setResponse(modes1.response);
+//                    modes.setChannel(modes1.channel);
+//                } else {
+//                    showError("Error", String.valueOf(modes1.message));
+//                }
             }
 
             @Override
             public void OnError(String exception) {
 //                VolleyErrorHandling.errorHandling(exception, activity);
             }
-        }, channelId, origin, url, call_icon, msg_icon, email_icon);
+        });
     }
 
-    private String getLatLng(LocationManager locationManager) {
-       if (locationManager != null){
-           if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-               return getLocation(locationManager);
-           }
-       }
-        return "";
-    }
-
-    private String getLocation(LocationManager locationManager) {
-        if (ActivityCompat.checkSelfPermission(
-                activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
-
-        } else {
-//            Location locationGPS = locationManager.getLastKnownLocation(LocationManager.FUSED_PROVIDER);
-//            if (locationGPS != null) {
-//                double lat = locationGPS.getLatitude();
-//                double longi = locationGPS.getLongitude();
-//                String latitude = String.valueOf(lat);
-//                String longitude = String.valueOf(longi);
-//                return latitude + "," + longitude;
-//            }
-        }
-        return "";
-    }
-
-    public void getCallDetails(@NotNull String channelId, @NotNull Modes modes, @NotNull String id,  Object object) {
+    public void getCallDetails(@NotNull String channelId, @NotNull Modes modes, @NotNull String id) {
         boolean isVerificationRequired = false;
         if(id == C2CConstants.CALL){
             isVerificationRequired = modes.channel.preferences.isCallVerificationRequired();
@@ -168,6 +165,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
         }else {
             isVerificationRequired = modes.channel.preferences.isSMSVerificationRequired();
         }
+
         if (isVerificationRequired) {
             Dialog dialog = new Dialog(activity);
             dialog.setContentView(R.layout.popup_dialog);
@@ -175,17 +173,32 @@ public class C2CVoiceActivity extends AppCompatActivity {
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
                     WindowManager.LayoutParams.WRAP_CONTENT);
             ArrayList<String> countries = new ArrayList<>();
+            int currentCountry = 0,countNo = 0;
             for (Country country : modes.channel.countries) {
                 countries.add(country.code + " " + country.country);
+                if (c2CAddress != null){
+                    if(country.country.equalsIgnoreCase(c2CAddress.address.country)){
+                        Log.d("countryCode",c2CAddress.address.countryCode);
+                        Log.d("country",c2CAddress.address.country);
+                        Log.d("countryCode API",country.code);
+                        Log.d("country API",country.country);
+                        currentCountry = countNo;
+
+                    }
+                }
+                countNo++;
             }
             Spinner countrySpinner = dialog.findViewById(R.id.country_spinner);
             ArrayAdapter aa = new ArrayAdapter(
                     activity, R.layout.c2cspinner,
                     countries
             );
+            Log.d("currentCountry",currentCountry+"");
+
             aa.setDropDownViewResource(R.layout.c2cspinner_dropdown);
             countrySpinner.setAdapter(aa);
             final String[] selectedCountry = {""};
+            countrySpinner.setSelection(currentCountry);
             countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
                 @Override
@@ -339,40 +352,46 @@ public class C2CVoiceActivity extends AppCompatActivity {
             connectButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    hideKeyboard(view);
                     if (termsCheckBox.isChecked()) {
-                        if (TextUtils.isEmpty(firstNameEdittxt.getText().toString())) {
+                        if (modes.channel.preferences.isName(id) && TextUtils.isEmpty(firstNameEdittxt.getText().toString())) {
                             showError("Message", "Enter first name.");
-                        } else if (TextUtils.isEmpty(lastNameEdittxt.getText().toString())) {
+                        } else if (modes.channel.preferences.isName(id) &&TextUtils.isEmpty(lastNameEdittxt.getText().toString())) {
                             showError("Message", "Enter last name.");
-                        } else if (TextUtils.isEmpty(numberEdittxt.getText().toString())) {
+                        } else if (modes.channel.preferences.isContact(id) && TextUtils.isEmpty(numberEdittxt.getText().toString())) {
                             showError("Message", "Enter valid contact number.");
-                        } else if (TextUtils.isEmpty(emailEditText.getText().toString())) {
+                        } else if (modes.channel.preferences.isEmail(id) && TextUtils.isEmpty(emailEditText.getText().toString())) {
                             showError("Message", "Please enter email address.");
-                        } else if (!isValidString(emailEditText.getText().toString())) {
+                        } else if (modes.channel.preferences.isEmail(id) && !isValidString(emailEditText.getText().toString())) {
                             showError("Message", "Please enter valid email address.");
-                        } else if (TextUtils.isEmpty(messageEditText.getText().toString())) {
+                        } else if (modes.channel.preferences.isMessage(id) && TextUtils.isEmpty(messageEditText.getText().toString())) {
                             showError("Message", "Please enter message here.");
                         } else if (modes.channel.preferences.isEmail(id) && modes.channel.preferences.isVerifyemail(id) && emailOTPEditText.getTag().toString().equals("false")) {
                             showError("Message", "Please enter Email OTP.");
                         } else if (modes.channel.preferences.isContact(id) && modes.channel.preferences.isVerifycontact(id) && mobileOTPEditText.getTag().toString().equals("false")) {
                             showError("Message", "Please enter Contact number OTP.");
                         } else {
-                            String location ="";
-                            if (object instanceof LocationManager){
-                                location = getLatLng((LocationManager) object);
-                            }
                             InitiateC2C initiateC2C = new InitiateC2C();
-//                            initiateC2C.setLatLong(location);
+                            if (activity !=null){
+                                C2C_Location locationTrack = new C2C_Location(activity);
+                                if (locationTrack.canGetLocation()) {
+                                    double longitude = locationTrack.getLongitude();
+                                    double latitude = locationTrack.getLatitude();
+                                    if (latitude != 0.0 && longitude != 0.0){
+                                        initiateC2C.setLatLong(latitude +","+ longitude);
+                                    }else if (c2CAddress != null){
+                                       setLatlong(initiateC2C);
+                                    }
+                                }else if (c2CAddress != null){
+                                    setLatlong(initiateC2C);
+                                }
+                            }
                             initiateC2C.setChannelId(channelId);
-                            initiateC2C.setName(
-                                    firstNameEdittxt.getText().toString() + " " + lastNameEdittxt.getText().toString());
+                            initiateC2C.setName(firstNameEdittxt.getText().toString() + " " + lastNameEdittxt.getText().toString());
 
                             initiateC2C.setNumotp(mobileOTPEditText.getText().toString());
                             initiateC2C.setMailotp(emailOTPEditText.getText().toString());
 
                             initiateC2C.setNumber(numberEdittxt.getText().toString());
-//                            initiateC2C.setLatLong(location);
                             for (Country country : modes.channel.countries) {
                                 if ((country.code + " " + country.country).contentEquals(selectedCountry[0])) {
                                     initiateC2C.setCountrycode(country.code);
@@ -474,7 +493,6 @@ public class C2CVoiceActivity extends AppCompatActivity {
                     }
                 });
             }
-//            modes.channel.preferences.contact && modes.channel.preferences.verifycontact
             if (modes.channel.preferences.isEmail(id) && modes.channel.preferences.isVerifyemail(id)) {
                 emailOTPEditText.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -628,14 +646,23 @@ public class C2CVoiceActivity extends AppCompatActivity {
             connectButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    hideKeyboard(view);
                     if (termsCheckBox.isChecked()) {
-                        String location ="";
-                        if (object instanceof LocationManager){
-                            location = getLatLng((LocationManager) object);
-                        }
                         InitiateC2C initiateC2C = new InitiateC2C();
-                        initiateC2C.setLatLong(location);
+                        if (activity !=null){
+                            C2C_Location locationTrack = new C2C_Location(activity);
+                            if (locationTrack.canGetLocation()) {
+                                double longitude = locationTrack.getLongitude();
+                                double latitude = locationTrack.getLatitude();
+                                if (latitude != 0.0 && longitude != 0.0){
+                                    initiateC2C.setLatLong(latitude +","+ longitude);
+                                }else if (c2CAddress != null){
+                                    setLatlong(initiateC2C);
+                                }
+                            }else if (c2CAddress != null){
+                                setLatlong(initiateC2C);
+                            }
+                        }
+
                         initiateC2C.setChannelId(channelId);
                         if (id.equals(C2CConstants.CALL)) {
                             initiateCall(initiateC2C, dialog, progressBar);
@@ -661,8 +688,14 @@ public class C2CVoiceActivity extends AppCompatActivity {
         }
     }
 
+    private void setLatlong(InitiateC2C initiateC2C) {
+        if (c2CAddress.address.geometry.coordinates.size()>0){
+            String latLong= c2CAddress.address.geometry.coordinates.get(1)+","+ c2CAddress.address.geometry.coordinates.get(0);
+            initiateC2C.setLatLong(latLong);
+        }
+    }
+
     private void validateEmailOTP(EditText emailOTPEditText, ValidateOTP validateOTP) {
-        HashMap<String, String> map = new HashMap<>();
         String jsonString = new Gson().toJson(validateOTP);
         new NetworkManager().verifyEmailOTP(new NetworkEventListener() {
             @Override
@@ -683,14 +716,12 @@ public class C2CVoiceActivity extends AppCompatActivity {
 
             @Override
             public void OnError(String exception) {
-//                VolleyErrorHandling.errorHandling(exception, activity);
             }
-        }, jsonString,origin,website);
+        }, jsonString,origin);
 
     }
 
     private void validateOTP(EditText mobileOTPEditText, ValidateOTP validateOTP) {
-        HashMap<String, String> map = new HashMap<>();
         String jsonString = new Gson().toJson(validateOTP);
         new NetworkManager().verifyMobileOTP(new NetworkEventListener() {
             @Override
@@ -711,9 +742,8 @@ public class C2CVoiceActivity extends AppCompatActivity {
 
             @Override
             public void OnError(String exception) {
-//                VolleyErrorHandling.errorHandling(exception, activity);
             }
-        }, jsonString,origin,website);
+        }, jsonString,origin);
 
 
     }
@@ -747,10 +777,8 @@ public class C2CVoiceActivity extends AppCompatActivity {
 
             @Override
             public void OnError(String exception) {
-//                VolleyErrorHandling.errorHandling(exception, activity);
             }
-        }, channelId, emailID, origin, website);
-
+        }, channelId, emailID, origin);
     }
 
     private void getSMSOTP(String channelId, String countryCode, String number, LinearLayout mobileOTPLayout, Button mobileCodeButton) {
@@ -762,11 +790,9 @@ public class C2CVoiceActivity extends AppCompatActivity {
                     mobileOTPLayout.setVisibility(View.VISIBLE);
                     mobileCodeButton.setClickable(false);
                     new CountDownTimer(60000, 1000) {
-
                         public void onTick(long millisUntilFinished) {
                             mobileCodeButton.setText("" + millisUntilFinished / 1000);
                         }
-
                         public void onFinish() {
                             mobileCodeButton.setText("GET CODE");
                             mobileCodeButton.setClickable(true);
@@ -778,20 +804,15 @@ public class C2CVoiceActivity extends AppCompatActivity {
                     showError("Error", String.valueOf(successC2C.message));
                 }
             }
-
             @Override
             public void OnError(String exception) {
-//                VolleyErrorHandling.errorHandling(exception, activity);
             }
-        }, channelId, countryCode, number, origin, website);
-
+        }, channelId, countryCode, number, origin);
     }
 
     private void sendEmail(InitiateC2C initiateC2C, Dialog dialog, ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
-        HashMap<String, String> map = new HashMap<>();
         String jsonString = new Gson().toJson(initiateC2C);
-
         new NetworkManager().sendEmail(new NetworkEventListener() {
             @Override
             public void OnSuccess(Object object) {
@@ -805,21 +826,17 @@ public class C2CVoiceActivity extends AppCompatActivity {
                     showError("Error", String.valueOf(successC2C.message));
                 }
             }
-
             @Override
             public void OnError(String exception) {
                 progressBar.setVisibility(View.GONE);
-//                VolleyErrorHandling.errorHandling(exception, activity);
+                dialog.dismiss();
             }
-        }, jsonString, origin, website);
-
+        }, jsonString, origin, initiateC2C.getLatLong());
     }
 
     private void sendMessage(InitiateC2C initiateC2C, Dialog dialog, ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
-        HashMap<String, String> map = new HashMap<>();
         String jsonString = new Gson().toJson(initiateC2C);
-        Log.d("jsonString",jsonString);
         new NetworkManager().sendSMS(new NetworkEventListener() {
             @Override
             public void OnSuccess(Object object) {
@@ -837,9 +854,9 @@ public class C2CVoiceActivity extends AppCompatActivity {
             @Override
             public void OnError(String exception) {
                 progressBar.setVisibility(View.GONE);
-//                VolleyErrorHandling.errorHandling(exception, activity);
+                dialog.dismiss();
             }
-        }, jsonString, origin, website, "");
+        }, jsonString, origin, initiateC2C.getLatLong());
 
     }
 
@@ -851,12 +868,8 @@ public class C2CVoiceActivity extends AppCompatActivity {
     ImageView dialPadFab;
     Dialog callConnectedDialog;
     private void initiateCall(InitiateC2C initiateC2C, Dialog dialogDismiss, ProgressBar progressBar) {
-//
-
         progressBar.setVisibility(View.VISIBLE);
-        HashMap<String, String> map = new HashMap<>();
         String jsonString = new Gson().toJson(initiateC2C);
-//        getLatLng();
         new NetworkManager().initiateCall(new NetworkEventListener() {
             @Override
             public void OnSuccess(Object object) {
@@ -998,9 +1011,10 @@ public class C2CVoiceActivity extends AppCompatActivity {
 
             @Override
             public void OnError(String exception) {
-//                VolleyErrorHandling.errorHandling(exception, activity);
+                progressBar.setVisibility(View.GONE);
+                dialogDismiss.dismiss();
             }
-        }, jsonString, activity, origin, website);
+        }, jsonString, activity, origin,initiateC2C.getLatLong());
 
     }
 
@@ -1026,15 +1040,6 @@ public class C2CVoiceActivity extends AppCompatActivity {
         alert.show();
 
     }
-
-    private void hideKeyboard(View view) {
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
-
     public void disconnect() {
         if (activeCall != null) {
             activeCall.disconnect();
@@ -1045,8 +1050,6 @@ public class C2CVoiceActivity extends AppCompatActivity {
     public void hold(Context context, ImageView holdActionFab) {
         if (activeCall != null) {
             boolean hold = !activeCall.isOnHold();
-//            activeCall.sendDigits("123" +
-//                    "");
             activeCall.hold(hold);
             applyFabState(holdActionFab, hold, context);
         }
@@ -1067,25 +1070,12 @@ public class C2CVoiceActivity extends AppCompatActivity {
     }
 
     private void applyFabState(ImageView button, boolean enabled, Context context) {
-        // Set fab as pressed when call is on hold
-
-//        ColorStateList colorStateList = enabled ?
-//                ColorStateList.valueOf(ContextCompat.getColor(context,
-//                        R.color.teal_200)) :
-//                ColorStateList.valueOf(ContextCompat.getColor(context,
-//                        R.color.colorAccent));
         ColorStateList colorStateList = enabled ?
                 ColorStateList.valueOf(Color.parseColor("#00A6FF")) :
                 ColorStateList.valueOf(Color.parseColor("#b0bec5"));
-//        <!--00A6FF-->
-//        if (enabled){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             button.setImageTintList(colorStateList);
         }
-//        }else {
-//            button.setColorFilter();
-//        }
-//        button.setBackgroundTintList(colorStateList);
     }
 
     public void startCall(String mobileNumber, String token, Context context) {
@@ -1100,8 +1090,6 @@ public class C2CVoiceActivity extends AppCompatActivity {
                 .params(params)
                 .build();
         activeCall = Voice.connect(context.getApplicationContext(), connectOptions, callListener);
-        Log.d("A", "A");
-
     }
 
     private void startAudioSwitch() {
@@ -1111,7 +1099,6 @@ public class C2CVoiceActivity extends AppCompatActivity {
          */
         audioSwitch.start((audioDevices, audioDevice) -> {
             Log.d(TAG, "Updating AudioDeviceIcon");
-//            updateAudioDeviceIcon(audioDevice);
             return Unit.INSTANCE;
         });
     }
@@ -1142,9 +1129,6 @@ public class C2CVoiceActivity extends AppCompatActivity {
                  * can use the `SoundPoolManager` to play custom audio files between the
                  * `Call.Listener.onRinging()` and the `Call.Listener.onConnected()` callbacks.
                  */
-//                if (BuildConfig.playCustomRingback) {
-//                SoundPoolManager.getInstance(getApplicationContext()).playRinging();
-//                }
                 if(chronometer !=null){
                     chronometer.setBase(SystemClock.elapsedRealtime());
                     chronometer.start();
@@ -1158,24 +1142,19 @@ public class C2CVoiceActivity extends AppCompatActivity {
                 if (holdActionFab !=null){
                     holdActionFab.setEnabled(true);
                 }
-//                Toast.makeText(activity, "Ringing", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onConnectFailure(@NonNull Call call, @NonNull CallException error) {
                 if (audioSwitch != null) {
                     audioSwitch.deactivate();
-//                if (BuildConfig.playCustomRingback) {
                     SoundPoolManager.getInstance(getApplicationContext()).stopRinging();
-//                }
-                    Log.d(TAG, "Connect failure");
                     String message = String.format(
                             Locale.US,
                             "Call Error: %d, %s",
                             error.getErrorCode(),
                             error.getMessage());
                     Log.e(TAG, message);
-
                 }
                 Toast.makeText(activity, "Connect failure", Toast.LENGTH_SHORT).show();
                 if (callConnectedDialog != null && callConnectedDialog.isShowing()){
@@ -1187,9 +1166,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
             public void onConnected(@NonNull Call call) {
                 if (audioSwitch != null) {
                     audioSwitch.activate();
-//                if (BuildConfig.playCustomRingback) {
                     SoundPoolManager.getInstance(getApplicationContext()).stopRinging();
-//                }
                     activeCall = call;
                 }
                 Log.d(TAG, "Connected");
@@ -1208,9 +1185,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
             public void onDisconnected(@NonNull Call call, CallException error) {
                 if (audioSwitch != null) {
                     audioSwitch.deactivate();
-//                if (BuildConfig.playCustomRingback) {
                     SoundPoolManager.getInstance(getApplicationContext()).stopRinging();
-//                }
                     Log.d(TAG, "Disconnected");
                     if (error != null) {
                         String message = String.format(
@@ -1219,7 +1194,6 @@ public class C2CVoiceActivity extends AppCompatActivity {
                                 error.getErrorCode(),
                                 error.getMessage());
                         Log.e(TAG, message);
-//                    Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG).show();
                     }
                 }
                 Toast.makeText(activity, "Disconnected", Toast.LENGTH_SHORT).show();
@@ -1254,10 +1228,8 @@ public class C2CVoiceActivity extends AppCompatActivity {
                         Locale.US,
                         "Newly raised warnings: " + currentWarnings + " Clear warnings " + previousWarnings);
                 Log.e(TAG, message);
-//                Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG).show();
             }
         };
     }
-
 
 }

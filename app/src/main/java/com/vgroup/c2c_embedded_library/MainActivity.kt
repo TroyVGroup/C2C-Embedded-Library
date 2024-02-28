@@ -1,14 +1,17 @@
 package com.vgroup.c2c_embedded_library
 
-import android.content.Context
+
 import android.content.pm.PackageManager
 import android.location.LocationManager
-import androidx.appcompat.app.AppCompatActivity
+import android.net.wifi.WifiInfo
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.vgroup.c2c_embedded_library.pojo.Modes
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,24 +20,17 @@ class MainActivity : AppCompatActivity() {
     var email_icon: ImageView? = null
     var modes: Modes = Modes()
     val ALL_PERMISSIONS = 101
-    val channelId = "65c1e0d8632f4ced4d676ba3"
-//    val channelId = "657ad6d2632f4ca91909cdbc"
-//    val origin = "https://testvg20.weebly.com"
-//    val website = "https://testvg20.weebly.com/naresh-new-page.html"
-//    val packageName = "com.example.android"
-    var c2cVoiceActivity: C2CVoiceActivity = C2CVoiceActivity(this@MainActivity,"com.example.android","com.example.android")
-    lateinit var locationManager: LocationManager
+    val channelId = "65dcfc07632f4c62504a3368"
+    var c2cVoiceActivity: C2CVoiceActivity = C2CVoiceActivity(this@MainActivity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        call_icon = findViewById(R.id.c2c_Call)
+        msg_icon = findViewById(R.id.c2c_Msg)
+        email_icon = findViewById(R.id.c2c_Email)
 
-        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
-        call_icon = findViewById(R.id.c2cCall)
-        msg_icon = findViewById(R.id.c2cMsg)
-        email_icon = findViewById(R.id.c2cEmail)
-
-        c2cVoiceActivity.getModes(channelId, "com.example.android","com.example.android", modes, call_icon, msg_icon, email_icon)
+        c2cVoiceActivity.getModes(channelId, modes, call_icon, msg_icon, email_icon)
 
         call_icon!!.setOnClickListener {
             val permission = ContextCompat.checkSelfPermission(
@@ -42,17 +38,17 @@ class MainActivity : AppCompatActivity() {
                 android.Manifest.permission.RECORD_AUDIO
             )
             if (permission == PackageManager.PERMISSION_GRANTED) {
-                c2cVoiceActivity.getCallDetails(channelId, modes, C2CConstants.CALL, locationManager)
+                c2cVoiceActivity.getCallDetails(channelId, modes, C2CConstants.CALL)
             } else {
                 c2cVoiceActivity.showError("Message", "Allow permission from setting to make call")
             }
         }
 
         msg_icon!!.setOnClickListener {
-            c2cVoiceActivity.getCallDetails(channelId, modes, C2CConstants.SMS,locationManager)
+            c2cVoiceActivity.getCallDetails(channelId, modes, C2CConstants.SMS)
         }
         email_icon!!.setOnClickListener {
-            c2cVoiceActivity.getCallDetails(channelId, modes, C2CConstants.EMAIL,locationManager)
+            c2cVoiceActivity.getCallDetails(channelId, modes, C2CConstants.EMAIL)
         }
 
         val permissions = arrayOf(

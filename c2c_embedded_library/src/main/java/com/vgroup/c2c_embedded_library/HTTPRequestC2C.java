@@ -37,6 +37,19 @@ public class HTTPRequestC2C extends AsyncTask<String, Void, String>{
         this.clazz = clazz;
         this.requestURL = C2CConstants.BASE_URL +requestURL;
     }
+    public <T> HTTPRequestC2C(Boolean auth,String requestURL, String data, Method methd, HashMap<String, String> headers, Class<T> clazz, HTTPCallback asyncResponse){
+        this.delegate = asyncResponse;//Assigning call back interfacethrough constructor
+        this.postDataParams=postDataParams;
+        this.headers = headers;
+        this.data = data;
+        this.methd = methd;
+        this.clazz = clazz;
+        if (auth){
+            this.requestURL = C2CConstants.BASE_URL +requestURL;
+        }else {
+            this.requestURL = requestURL;
+        }
+    }
 
     @Override
 
@@ -119,19 +132,9 @@ public class HTTPRequestC2C extends AsyncTask<String, Void, String>{
                 headers.get(value);
                 conn.setRequestProperty(value, headers.get(value));
             }
-
-//            OutputStream os = conn.getOutputStream();
-//            BufferedWriter writer = new BufferedWriter(
-//                    new OutputStreamWriter(os, "UTF-8"));
-            OutputStream os = conn.getOutputStream();
+                OutputStream os = conn.getOutputStream();
                 byte[] input = data.getBytes("utf-8");
                 os.write(input, 0, input.length);
-
-//            writer.write(data);
-//            writer.write(getPostDataString(postDataParams));
-//            writer.flush();
-//            writer.close();
-
 
             os.close();
             int responseCode=conn.getResponseCode();
