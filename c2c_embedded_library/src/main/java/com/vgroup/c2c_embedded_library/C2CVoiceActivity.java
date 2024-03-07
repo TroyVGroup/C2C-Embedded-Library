@@ -1,18 +1,15 @@
 package com.vgroup.c2c_embedded_library;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.location.Location;
-import android.location.LocationManager;
-import android.media.Image;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -30,7 +27,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -48,9 +44,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.google.android.material.button.MaterialButton;
-//import com.google.android.material.floatingactionbutton.FloatingActionButton;
-//import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.twilio.audioswitch.AudioSwitch;
 import com.twilio.voice.Call;
@@ -72,13 +65,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import java.util.function.Consumer;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import kotlin.Unit;
 
 public class C2CVoiceActivity extends AppCompatActivity {
@@ -106,8 +96,17 @@ public class C2CVoiceActivity extends AppCompatActivity {
         }
     }
 
+    public boolean isOnline() {
+
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) activity.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
     public void getModes(@NotNull String channelId, final Modes modes, ImageView call_icon, ImageView msg_icon, ImageView email_icon) {
-        HashMap<String, String> map = new HashMap<>();
+        if (!isOnline()){
+            return;
+        }
         new NetworkManager().getModes(new NetworkEventListener() {
             @Override
             public void OnSuccess(Object object) {
@@ -130,7 +129,9 @@ public class C2CVoiceActivity extends AppCompatActivity {
     }
 
     public void getIP(){
-        HashMap<String, String> map = new HashMap<>();
+        if (!isOnline()){
+            return;
+        }
         new NetworkManager().getDeviceIP(new NetworkEventListener() {
             @Override
             public void OnSuccess(Object object) {
@@ -148,7 +149,6 @@ public class C2CVoiceActivity extends AppCompatActivity {
 //                    showError("Error", String.valueOf(modes1.message));
 //                }
             }
-
             @Override
             public void OnError(String exception) {
 //                VolleyErrorHandling.errorHandling(exception, activity);
@@ -696,6 +696,9 @@ public class C2CVoiceActivity extends AppCompatActivity {
     }
 
     private void validateEmailOTP(EditText emailOTPEditText, ValidateOTP validateOTP) {
+        if (!isOnline()){
+            return;
+        }
         String jsonString = new Gson().toJson(validateOTP);
         new NetworkManager().verifyEmailOTP(new NetworkEventListener() {
             @Override
@@ -713,7 +716,6 @@ public class C2CVoiceActivity extends AppCompatActivity {
                     showError("Error", String.valueOf(successC2C.message));
                 }
             }
-
             @Override
             public void OnError(String exception) {
             }
@@ -722,6 +724,9 @@ public class C2CVoiceActivity extends AppCompatActivity {
     }
 
     private void validateOTP(EditText mobileOTPEditText, ValidateOTP validateOTP) {
+        if (!isOnline()){
+            return;
+        }
         String jsonString = new Gson().toJson(validateOTP);
         new NetworkManager().verifyMobileOTP(new NetworkEventListener() {
             @Override
@@ -749,7 +754,9 @@ public class C2CVoiceActivity extends AppCompatActivity {
     }
 
     private void getEmailOTP(String channelId, String emailID, LinearLayout emailOTPLayout, Button verifyEmailOtpButton) {
-
+        if (!isOnline()){
+            return;
+        }
         new NetworkManager().getOTPForEmail(new NetworkEventListener() {
             @Override
             public void OnSuccess(Object object) {
@@ -782,6 +789,9 @@ public class C2CVoiceActivity extends AppCompatActivity {
     }
 
     private void getSMSOTP(String channelId, String countryCode, String number, LinearLayout mobileOTPLayout, Button mobileCodeButton) {
+        if (!isOnline()){
+            return;
+        }
         new NetworkManager().getOTPForSMS(new NetworkEventListener() {
             @Override
             public void OnSuccess(Object object) {
@@ -811,6 +821,9 @@ public class C2CVoiceActivity extends AppCompatActivity {
     }
 
     private void sendEmail(InitiateC2C initiateC2C, Dialog dialog, ProgressBar progressBar) {
+        if (!isOnline()){
+            return;
+        }
         progressBar.setVisibility(View.VISIBLE);
         String jsonString = new Gson().toJson(initiateC2C);
         new NetworkManager().sendEmail(new NetworkEventListener() {
@@ -835,6 +848,9 @@ public class C2CVoiceActivity extends AppCompatActivity {
     }
 
     private void sendMessage(InitiateC2C initiateC2C, Dialog dialog, ProgressBar progressBar) {
+        if (!isOnline()){
+            return;
+        }
         progressBar.setVisibility(View.VISIBLE);
         String jsonString = new Gson().toJson(initiateC2C);
         new NetworkManager().sendSMS(new NetworkEventListener() {
@@ -859,8 +875,6 @@ public class C2CVoiceActivity extends AppCompatActivity {
         }, jsonString, origin, initiateC2C.getLatLong());
 
     }
-
-
     Chronometer chronometer;
     ImageView holdActionFab;
     ImageView muteActionFab ;
@@ -868,6 +882,9 @@ public class C2CVoiceActivity extends AppCompatActivity {
     ImageView dialPadFab;
     Dialog callConnectedDialog;
     private void initiateCall(InitiateC2C initiateC2C, Dialog dialogDismiss, ProgressBar progressBar) {
+        if (!isOnline()){
+            return;
+        }
         progressBar.setVisibility(View.VISIBLE);
         String jsonString = new Gson().toJson(initiateC2C);
         new NetworkManager().initiateCall(new NetworkEventListener() {

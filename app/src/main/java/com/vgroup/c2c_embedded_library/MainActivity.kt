@@ -1,10 +1,6 @@
 package com.vgroup.c2c_embedded_library
 
-
 import android.content.pm.PackageManager
-import android.location.LocationManager
-import android.net.wifi.WifiInfo
-import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity

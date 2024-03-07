@@ -12,5 +12,5 @@ before_install:
   - ./scripts/prepareJitpackEnvironment.sh
 install:
   - FILE="-Dfile=c2c_embedded_library-release.aar" #com-atifqamar-customtoast.aar
-  - mvn install:install-file $FILE -DgroupId=com.github.TroyVGroup -DartifactId=C2Cbusiness -Dversion=1.5 -Dpackaging=aar -DgeneratePom=true
+  - mvn install:install-file $FILE -DgroupId=com.github.TroyVGroup -DartifactId=C2Cbusiness -Dversion=1.6 -Dpackaging=aar -DgeneratePom=true
 #  #com.github.geek-atif                      #com-atifqamar-customtoast  #1.0

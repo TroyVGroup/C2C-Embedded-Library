@@ -1,6 +1,9 @@
 package com.vgroup.c2c_embedded_library;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,29 +15,38 @@ import com.vgroup.c2c_embedded_library.pojo.SuccessC2C;
 import com.vgroup.c2c_embedded_library.pojo.TokenPojo;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
-
 public class NetworkManager {
-
     public void getModes(final NetworkEventListener listener, String channelId, String c2cPackage, ImageView call_icon, ImageView msg_icon, ImageView email_icon) {
         String url = C2CConstants.CHANNEL_MODES + channelId;
         HashMap<String, String> headers = new HashMap<>();
         headers.put("request-package", c2cPackage);
         headers.put("Content-Type","application/json");
         headers.put("Accept", "application/json");
-
         HTTPRequestC2C requestHttp = new HTTPRequestC2C(url, Method.GET.toString(), Method.GET, headers,Modes.class, new HTTPCallback() {
             @Override
             public void processFinish(Object obj) {
-                Log.e("Response", "obj");
                 Modes response = (Modes) obj;
 
                 if (response.status == 200) {
                     call_icon.setVisibility(response.channel.callstats.enable ? View.VISIBLE : View.GONE);
                     msg_icon.setVisibility(response.channel.smsstats.enable ? View.VISIBLE : View.GONE);
                     email_icon.setVisibility(response.channel.emailstats.enable ? View.VISIBLE : View.GONE);
+                    if (response.channel.callstats.enable){
+                        new ImageLoadTask(channelId+"/connect.png" , call_icon).execute();
+                    }
+                    if (response.channel.smsstats.enable){
+                        new ImageLoadTask(channelId+"/sms.png", msg_icon).execute();
+                    }
+                    if (response.channel.emailstats.enable){
+                        new ImageLoadTask(channelId+"/email.png", email_icon).execute();
+                    }
                 } else {
                     call_icon.setVisibility(View.GONE);
                     msg_icon.setVisibility(View.GONE);
@@ -42,13 +54,47 @@ public class NetworkManager {
                 }
                 listener.OnSuccess(obj);
             }
-
             @Override
             public void processFailed(int responseCode, String output) {
                 Log.e("Response Failed", Integer.toString(responseCode) + " - " + output);
             }
         });
         requestHttp.execute();
+    }
+
+
+    public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private String key;
+        private ImageView imageView;
+
+        public ImageLoadTask(String key, ImageView imageView) {
+            this.key = key;
+            this.imageView = imageView;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            try {
+                URL urlConnection = new URL(C2CConstants.BASE_URL+C2CConstants.IMAGES+key);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            imageView.setImageBitmap(result);
+        }
     }
 
     public void getDeviceIP(final NetworkEventListener listener) {
@@ -69,17 +115,13 @@ public class NetworkManager {
         });
         requestHttp.execute();
     }
-
     public void sendEmail(final NetworkEventListener listener, String data, String c2cPackage,String latLong) {
-
         String url = C2CConstants.SEND_EMAIL;
         HashMap<String, String> headers = new HashMap<>();
         headers.put("c2c-latlong", latLong);
-        Log.d("latLong",latLong);
         headers.put("request-package", c2cPackage);
         headers.put("Content-Type","application/json");
         headers.put("Accept", "application/json");
-
         HTTPRequestC2C requestHttp = new HTTPRequestC2C(url, data, Method.POST, headers,SuccessC2C.class, new HTTPCallback() {
             @Override
             public void processFinish(Object obj) {
@@ -92,9 +134,7 @@ public class NetworkManager {
             }
         });
         requestHttp.execute();
-
     }
-
     public void sendSMS(final NetworkEventListener listener, String data, String c2cPackage, String latLong) {
 
         String url = C2CConstants.SEND_SMS;
@@ -103,7 +143,6 @@ public class NetworkManager {
         headers.put("request-package", c2cPackage);
         headers.put("Content-Type","application/json");
         headers.put("Accept", "application/json");
-
         HTTPRequestC2C requestHttp = new HTTPRequestC2C(url, data, Method.POST, headers,SuccessC2C.class, new HTTPCallback() {
             @Override
             public void processFinish(Object obj) {
@@ -117,7 +156,6 @@ public class NetworkManager {
         });
         requestHttp.execute();
     }
-
     public void verifyEmailOTP(final NetworkEventListener listener, String data, String c2cPackage) {
 
         String url = C2CConstants.VERIFY_EMAIL_OTP;
@@ -126,7 +164,6 @@ public class NetworkManager {
         headers.put("request-package", c2cPackage);
         headers.put("Content-Type","application/json");
         headers.put("Accept", "application/json");
-
         HTTPRequestC2C requestHttp = new HTTPRequestC2C(url, data, Method.POST, headers,SuccessC2C.class, new HTTPCallback() {
             @Override
             public void processFinish(Object obj) {
@@ -139,7 +176,6 @@ public class NetworkManager {
             }
         });
         requestHttp.execute();
-
     }
 
     public void verifyMobileOTP(final NetworkEventListener listener, String data, String c2cPackage) {
@@ -155,14 +191,12 @@ public class NetworkManager {
             public void processFinish(Object obj) {
                 listener.OnSuccess((SuccessC2C) obj);
             }
-
             @Override
             public void processFailed(int responseCode, String output) {
                 Log.e("Response Failed", Integer.toString(responseCode) + " - " + output);
             }
         });
         requestHttp.execute();
-
     }
 
     public void getOTPForEmail(final NetworkEventListener listener, String channelId, String emailID, String c2cPackage) {
@@ -178,20 +212,17 @@ public class NetworkManager {
         data.put("email", emailID);
 
         JSONObject obj = new JSONObject(data);
-
         HTTPRequestC2C requestHttp = new HTTPRequestC2C(url, obj.toString(), Method.POST, headers,SuccessC2C.class, new HTTPCallback() {
             @Override
             public void processFinish(Object obj) {
                 listener.OnSuccess((SuccessC2C) obj);
             }
-
             @Override
             public void processFailed(int responseCode, String output) {
                 Log.e("Response Failed", Integer.toString(responseCode) + " - " + output);
             }
         });
         requestHttp.execute();
-
     }
 
     public void initiateCall(final NetworkEventListener listener, String data, Context context, String c2cPackage, String latLong) {
@@ -202,21 +233,18 @@ public class NetworkManager {
         headers.put("c2c-latlong", latLong);
         headers.put("Content-Type","application/json");
         headers.put("Accept", "application/json");
-
         HTTPRequestC2C requestHttp = new HTTPRequestC2C(url, data, Method.POST, headers,CallPojo.class, new HTTPCallback() {
             @Override
             public void processFinish(Object obj) {
                 String callAuth = ((CallPojo) obj).callauth.id;
                 getToken(listener, callAuth, c2cPackage, latLong);
             }
-
             @Override
             public void processFailed(int responseCode, String output) {
                 Log.e("Response Failed", Integer.toString(responseCode) + " - " + output);
             }
         });
         requestHttp.execute();
-
     }
 
     public void getToken(final NetworkEventListener listener, String authID,  String c2cPackage, String latLong) {
@@ -236,15 +264,12 @@ public class NetworkManager {
             public void processFinish(Object obj) {
                 listener.OnSuccess((TokenPojo) obj);
             }
-
             @Override
             public void processFailed(int responseCode, String output) {
                 Log.e("Response Failed", Integer.toString(responseCode) + " - " + output);
             }
         });
         requestHttp.execute();
-
-
     }
 
     public void getOTPForSMS(final NetworkEventListener listener, String channelId, String code, String number, String c2cPackage) {
@@ -265,7 +290,6 @@ public class NetworkManager {
             public void processFinish(Object obj) {
                 listener.OnSuccess((SuccessC2C) obj);
             }
-
             @Override
             public void processFailed(int responseCode, String output) {
                 Log.e("Response Failed", Integer.toString(responseCode) + " - " + output);
@@ -273,5 +297,4 @@ public class NetworkManager {
         });
         requestHttp.execute();
     }
-
 }
