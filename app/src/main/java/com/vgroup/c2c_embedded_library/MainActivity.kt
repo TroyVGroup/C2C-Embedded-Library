@@ -8,7 +8,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.vgroup.c2c_embedded_library.pojo.Modes
 
-
 class MainActivity : AppCompatActivity() {
 
     var call_icon: ImageView? = null
@@ -25,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         call_icon = findViewById(R.id.c2c_Call)
         msg_icon = findViewById(R.id.c2c_Msg)
         email_icon = findViewById(R.id.c2c_Email)
-
         c2cVoiceActivity.getModes(channelId, modes, call_icon, msg_icon, email_icon)
 
         call_icon!!.setOnClickListener {

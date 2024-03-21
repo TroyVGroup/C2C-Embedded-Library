@@ -80,7 +80,6 @@ public class C2CVoiceActivity extends AppCompatActivity {
     public Call.Listener callListener = callListener();
     public AudioSwitch audioSwitch;
     private C2CAddress c2CAddress;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +94,6 @@ public class C2CVoiceActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
     public boolean isOnline() {
 
         ConnectivityManager connectivityManager
@@ -135,23 +133,12 @@ public class C2CVoiceActivity extends AppCompatActivity {
         new NetworkManager().getDeviceIP(new NetworkEventListener() {
             @Override
             public void OnSuccess(Object object) {
-                Log.d("a","a");
                 if (activity != null){
                     c2CAddress = (C2CAddress) object;
                 }
-//                Modes modes1 = ((Modes) object);
-//                if (modes1.status == 200) {
-//                    modes.setStatus(modes1.status);
-//                    modes.setMessage(modes1.message);
-//                    modes.setResponse(modes1.response);
-//                    modes.setChannel(modes1.channel);
-//                } else {
-//                    showError("Error", String.valueOf(modes1.message));
-//                }
             }
             @Override
             public void OnError(String exception) {
-//                VolleyErrorHandling.errorHandling(exception, activity);
             }
         });
     }
@@ -183,7 +170,6 @@ public class C2CVoiceActivity extends AppCompatActivity {
                         Log.d("countryCode API",country.code);
                         Log.d("country API",country.country);
                         currentCountry = countNo;
-
                     }
                 }
                 countNo++;
@@ -200,7 +186,6 @@ public class C2CVoiceActivity extends AppCompatActivity {
             final String[] selectedCountry = {""};
             countrySpinner.setSelection(currentCountry);
             countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
                 @Override
                 public void onItemSelected(AdapterView<?> arg0, View arg1,
                                            int pos, long id) {
@@ -895,6 +880,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     dialogDismiss.dismiss();
                     startCall(
+                            tokenPojo.token.id,
                             tokenPojo.verified.call,
                             tokenPojo.token.value,
                             activity
@@ -1035,6 +1021,10 @@ public class C2CVoiceActivity extends AppCompatActivity {
 
     }
 
+//    private void getToken(String call, String value, Activity activity) {
+//
+//    }
+
     private boolean isValidString(String emailID) {
         if (TextUtils.isEmpty(emailID)) {
             return false;
@@ -1095,13 +1085,14 @@ public class C2CVoiceActivity extends AppCompatActivity {
         }
     }
 
-    public void startCall(String mobileNumber, String token, Context context) {
+    public void startCall(String id,String mobileNumber, String token, Context context) {
         if (mobileNumber.isEmpty()) {
             return;
         }
         params.put("To", mobileNumber);
         params.put("From", "+14353254881");
         params.put("Env", "d");
+        params.put("Token", id);
 
         ConnectOptions connectOptions = new ConnectOptions.Builder(token)
                 .params(params)
