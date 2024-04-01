@@ -69,6 +69,7 @@ import java.util.Set;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import kotlin.Unit;
 
 public class C2CVoiceActivity extends AppCompatActivity {
@@ -105,6 +106,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
         if (!isOnline()){
             return;
         }
+        getIP();
         new NetworkManager().getModes(new NetworkEventListener() {
             @Override
             public void OnSuccess(Object object) {
@@ -117,9 +119,8 @@ public class C2CVoiceActivity extends AppCompatActivity {
                 } else {
                     showError("Error", String.valueOf(modes1.message));
                 }
-                getIP();
-            }
 
+            }
             @Override
             public void OnError(String exception) {
             }
@@ -154,13 +155,15 @@ public class C2CVoiceActivity extends AppCompatActivity {
         }
 
         if (isVerificationRequired) {
+
             Dialog dialog = new Dialog(activity);
             dialog.setContentView(R.layout.popup_dialog);
             Window window = dialog.getWindow();
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
                     WindowManager.LayoutParams.WRAP_CONTENT);
             ArrayList<String> countries = new ArrayList<>();
-            int currentCountry = 0,countNo = 0;
+            countries.add("Select Country");
+            int currentCountry = -1,countNo = 0;
             for (Country country : modes.channel.countries) {
                 countries.add(country.code + " " + country.country);
                 if (c2CAddress != null){
@@ -175,21 +178,27 @@ public class C2CVoiceActivity extends AppCompatActivity {
                 countNo++;
             }
             Spinner countrySpinner = dialog.findViewById(R.id.country_spinner);
-            ArrayAdapter aa = new ArrayAdapter(
+            ArrayAdapter countryAdapter = new ArrayAdapter(
                     activity, R.layout.c2cspinner,
                     countries
             );
             Log.d("currentCountry",currentCountry+"");
 
-            aa.setDropDownViewResource(R.layout.c2cspinner_dropdown);
-            countrySpinner.setAdapter(aa);
+            countryAdapter.setDropDownViewResource(R.layout.c2cspinner_dropdown);
+            countrySpinner.setAdapter(countryAdapter);
             final String[] selectedCountry = {""};
-            countrySpinner.setSelection(currentCountry);
+            if (currentCountry>0){
+                countrySpinner.setSelection(currentCountry);
+            }
             countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> arg0, View arg1,
                                            int pos, long id) {
-                    selectedCountry[0] = countries.get(pos);
+                    if (pos>0){
+                        selectedCountry[0] = countries.get(pos);
+                    }else {
+                        selectedCountry[0] = "";
+                    }
                 }
 
                 @Override
@@ -529,9 +538,11 @@ public class C2CVoiceActivity extends AppCompatActivity {
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
                     WindowManager.LayoutParams.WRAP_CONTENT);
             ArrayList<String> countries = new ArrayList<>();
+
             for (Country country : modes.channel.countries) {
                 countries.add(country.code + " " + country.country);
             }
+
             LinearLayout detailsLayout = dialog.findViewById(R.id.details_layout);
             LinearLayout formLayout = dialog.findViewById(R.id.form_layout);
             if (id.equals(C2CConstants.CALL)) {
@@ -890,8 +901,10 @@ public class C2CVoiceActivity extends AppCompatActivity {
                      chronometer = callConnectedDialog.findViewById(R.id.chronometer);
                      holdActionFab = callConnectedDialog.findViewById(R.id.hold_action_fab);
                      muteActionFab = callConnectedDialog.findViewById(R.id.mute_action_fab);
+
                      hangUpActionFab = callConnectedDialog.findViewById(R.id.hangup_action_fab);
                      dialPadFab = callConnectedDialog.findViewById(R.id.dialpad_fab);
+                    muteActionFab.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.icon_mic));
                     LinearLayout dialPadLayout = callConnectedDialog.findViewById(R.id.dialPadLayout);
 
                     EditText numberEditText = callConnectedDialog.findViewById(R.id.numberEditText);
@@ -994,10 +1007,10 @@ public class C2CVoiceActivity extends AppCompatActivity {
                         if (dialPadLayout.getVisibility() == View.VISIBLE) {
                             dialPadLayout.setVisibility(View.GONE);
                             digits.delete(0, digits.length());
-                            applyFabState(dialPadFab, false, activity);
+                            applyFabState(dialPadFab, false, activity, 2);
                         } else {
                             dialPadLayout.setVisibility(View.VISIBLE);
-                            applyFabState(dialPadFab, true, activity);
+                            applyFabState(dialPadFab, true, activity, 2);
                         }
                     });
 
@@ -1058,7 +1071,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
         if (activeCall != null) {
             boolean hold = !activeCall.isOnHold();
             activeCall.hold(hold);
-            applyFabState(holdActionFab, hold, context);
+            applyFabState(holdActionFab, hold, context,2);
         }
     }
 
@@ -1066,7 +1079,12 @@ public class C2CVoiceActivity extends AppCompatActivity {
         if (activeCall != null) {
             boolean mute = !activeCall.isMuted();
             activeCall.mute(mute);
-            applyFabState(muteActionFab, mute, context);
+            if (mute){
+                muteActionFab.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.icon_mic));
+            }else {
+                muteActionFab.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.mic_mute));
+            }
+            applyFabState(muteActionFab, mute, context,1);
         }
     }
 
@@ -1076,13 +1094,14 @@ public class C2CVoiceActivity extends AppCompatActivity {
         }
     }
 
-    private void applyFabState(ImageView button, boolean enabled, Context context) {
+    private void applyFabState(ImageView button, boolean enabled, Context context, int imageItem) {
         ColorStateList colorStateList = enabled ?
                 ColorStateList.valueOf(Color.parseColor("#00A6FF")) :
                 ColorStateList.valueOf(Color.parseColor("#b0bec5"));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             button.setImageTintList(colorStateList);
         }
+
     }
 
     public void startCall(String id,String mobileNumber, String token, Context context) {

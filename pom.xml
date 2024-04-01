@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.TroyVGroup</groupId> <!-- com.github.example-->
     <artifactId>C2Cbusiness</artifactId> <!-- com-example-customtoast -->
-    <version>1.9</version> <!-- 1.0 -->
+    <version>2.0</version> <!-- 1.0 -->
     <packaging>pom</packaging>
     <description>release</description>
 </project>

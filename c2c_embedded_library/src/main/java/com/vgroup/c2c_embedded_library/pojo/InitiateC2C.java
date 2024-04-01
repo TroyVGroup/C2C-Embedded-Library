@@ -35,6 +35,7 @@ public class InitiateC2C {
     }
 
     public void setMessage(String message) {
+        message = message.replace("%", "%25");
         this.message = message;
     }
 
