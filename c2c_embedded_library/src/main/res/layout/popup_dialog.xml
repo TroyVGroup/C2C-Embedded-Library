@@ -75,7 +75,7 @@
                     <EditText
                         android:id="@+id/firstNameEditText"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="45sp"
                         android:backgroundTint="@color/colorTransparent"
                         android:hint="First Name"
                         android:text=""
@@ -98,7 +98,7 @@
                     <EditText
                         android:id="@+id/lastNameEditText"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="45sp"
                         android:backgroundTint="@color/colorTransparent"
                         android:hint="Last Name"
                         android:importantForAutofill="no"
@@ -128,7 +128,7 @@
                     <Spinner
                         android:id="@+id/country_spinner"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="45sp"
                         android:gravity="center" />
 
                     </RelativeLayout>
@@ -145,7 +145,7 @@
                     <EditText
                         android:id="@+id/numberEditText"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="45sp"
                         android:layout_marginLeft="2dp"
                         android:layout_weight="0.95"
                         android:backgroundTint="@color/colorTransparent"
@@ -196,7 +196,7 @@
                     <EditText
                         android:id="@+id/mobileOTPEditText"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="45sp"
                         android:backgroundTint="@color/colorTransparent"
                         android:hint="Enter OTP"
                         android:importantForAutofill="no"
@@ -227,11 +227,11 @@
                     <EditText
                         android:id="@+id/emailEditText"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="45sp"
                         android:layout_marginRight="2dp"
                         android:layout_weight="0.8"
                         android:backgroundTint="@color/colorTransparent"
-                        android:hint="email"
+                        android:hint="Email address"
                         android:text=""
                         android:importantForAutofill="no"
                         android:singleLine="true"
@@ -281,7 +281,7 @@
                     <EditText
                         android:id="@+id/emailOTPEditText"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="45sp"
                         android:backgroundTint="@color/colorTransparent"
                         android:hint="Enter OTP"
                         android:importantForAutofill="no"
@@ -302,7 +302,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/c2cbackground"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -316,10 +315,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:gravity="top"
-                    android:hint="Message"
+                    android:hint="Enter message"
                     android:importantForAutofill="no"
                     android:inputType="textMultiLine"
                     android:lines="5"
+                    android:textSize="14sp"
                     android:backgroundTint="@color/colorTransparent"
                     android:padding="10dp"
                     android:text=""
@@ -339,7 +339,7 @@
                 android:layout_marginTop="2dp"
                 android:layout_gravity="right"
                 android:gravity="right"
-                android:textColor="#000000"
+                android:textColor="@color/colorHint"
                 android:text="0/160"
                 android:textSize="14sp"
                 android:visibility="gone"
@@ -406,7 +406,7 @@
                 android:layout_marginBottom="20dp"
                 android:text="Powered by: "
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/poweredByTextView"
