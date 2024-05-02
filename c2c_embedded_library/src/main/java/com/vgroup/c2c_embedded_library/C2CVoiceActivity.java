@@ -229,6 +229,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
             LinearLayout detailsLayout = dialog.findViewById(R.id.details_layout);
             LinearLayout messageLayout = dialog.findViewById(R.id.messageLayout);
             TextView cancelTextView = dialog.findViewById(R.id.cancelTextView);
+            TextView cancelImgView = dialog.findViewById(R.id.cancelImgView);
             CheckBox termsCheckBox = dialog.findViewById(R.id.accept_terms_and_conditions);
             Button connectButton = dialog.findViewById(R.id.connectButton);
             EditText messageEditText = dialog.findViewById(R.id.messageEditText);
@@ -270,6 +271,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
                     WebView webView = dialog.findViewById(R.id.webview);
                     ProgressBar progressBarWebView = dialog.findViewById(R.id.progressBar);
                     TextView cancelTextView = dialog.findViewById(R.id.cancelTextView);
+                    TextView cancelImgView = dialog.findViewById(R.id.cancelImgView);
 
                     webView.getSettings().setLoadsImagesAutomatically(true);
                     webView.getSettings().setJavaScriptEnabled(true);
@@ -284,7 +286,11 @@ public class C2CVoiceActivity extends AppCompatActivity {
                         }
                     });
                     webView.loadUrl("https://contexttocall.com/");
+
                     cancelTextView.setOnClickListener(view1 ->
+                            dialog.cancel());
+
+                    cancelImgView.setOnClickListener(view1 ->
                             dialog.cancel());
                     dialog.show();
 
@@ -305,6 +311,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
                     WebView webView = dialog.findViewById(R.id.webview);
                     ProgressBar progressBarWebView = dialog.findViewById(R.id.progressBar);
                     TextView cancelTextView = dialog.findViewById(R.id.cancelTextView);
+                    TextView cancelImgView = dialog.findViewById(R.id.cancelImgView);
 
                     webView.getSettings().setLoadsImagesAutomatically(true);
                     webView.getSettings().setJavaScriptEnabled(true);
@@ -323,6 +330,9 @@ public class C2CVoiceActivity extends AppCompatActivity {
                     webView.loadUrl("https://app.contexttocall.com/terms");
 
                     cancelTextView.setOnClickListener(view1 ->
+                            dialog.cancel());
+
+                    cancelImgView.setOnClickListener(view1 ->
                             dialog.cancel());
                     dialog.show();
                 }
@@ -417,6 +427,13 @@ public class C2CVoiceActivity extends AppCompatActivity {
             });
 
             cancelTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+            cancelImgView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     dialog.dismiss();
@@ -551,6 +568,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
                 formLayout.setVisibility(View.GONE);
             }
             TextView cancelTextView = dialog.findViewById(R.id.cancelTextView);
+            TextView cancelImgView = dialog.findViewById(R.id.cancelImgView);
             CheckBox termsCheckBox = dialog.findViewById(R.id.accept_terms_and_conditions);
             Button connectButton = dialog.findViewById(R.id.connectButton);
             EditText messageEditText = dialog.findViewById(R.id.messageEditText);
@@ -594,6 +612,7 @@ public class C2CVoiceActivity extends AppCompatActivity {
                     WebView webView = dialog.findViewById(R.id.webview);
                     ProgressBar progressBarWebView = dialog.findViewById(R.id.progressBar);
                     TextView cancelTextView = dialog.findViewById(R.id.cancelTextView);
+                    TextView cancelImgView = dialog.findViewById(R.id.cancelImgView);
 
                     webView.getSettings().setLoadsImagesAutomatically(true);
                     webView.getSettings().setJavaScriptEnabled(true);
@@ -612,6 +631,9 @@ public class C2CVoiceActivity extends AppCompatActivity {
                     webView.loadUrl("https://app.contexttocall.com/terms");
 
                     cancelTextView.setOnClickListener(view1 ->
+                            dialog.cancel());
+
+                    cancelImgView.setOnClickListener(view1 ->
                             dialog.cancel());
                     dialog.show();
                 }
@@ -633,6 +655,13 @@ public class C2CVoiceActivity extends AppCompatActivity {
             termsTextView.setHighlightColor(Color.TRANSPARENT);
 
             cancelTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+            cancelImgView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     dialog.dismiss();
