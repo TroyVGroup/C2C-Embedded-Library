@@ -21,3 +21,5 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.vgroup.c2c_embedded_library.pojo.* { *; }
+-keep class com.vgroup.c2c_embedded_library.C2CVoiceActivity { *; }
+-keep class com.vgroup.c2c_embedded_library.C2CConstants { *; }
