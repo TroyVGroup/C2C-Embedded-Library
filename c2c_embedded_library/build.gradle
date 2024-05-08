@@ -18,7 +18,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -50,7 +51,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.TroyVGroup'
                 artifactId = 'C2Cbusiness'
-                version = "2.1"
+                version = "2.2"
             }
         }
     }
