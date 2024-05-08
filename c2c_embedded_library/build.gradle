@@ -51,7 +51,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.TroyVGroup'
                 artifactId = 'C2Cbusiness'
-                version = "2.3"
+                version = "2.4"
             }
         }
     }
