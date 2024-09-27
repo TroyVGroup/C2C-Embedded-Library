@@ -1,11 +1,13 @@
 package com.vgroup.c2c_embedded_library.pojo;
 
+
+
 public class Modes {
     public String response;
     public Channel channel;
+
     public Object message;
     public int status;
-
     public Channel getChannel() {
         return channel;
     }

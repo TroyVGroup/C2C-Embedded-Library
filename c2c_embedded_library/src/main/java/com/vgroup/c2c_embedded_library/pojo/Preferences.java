@@ -1,5 +1,6 @@
 package com.vgroup.c2c_embedded_library.pojo;
 
+
 import com.vgroup.c2c_embedded_library.C2CConstants;
 
 public class Preferences{

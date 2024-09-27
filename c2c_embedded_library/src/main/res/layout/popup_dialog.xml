@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,30 +61,26 @@
                 <LinearLayout
                     android:id="@+id/name_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginTop="20dp"
                     android:layout_weight="2">
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_marginRight="4dp"
                         android:paddingLeft="2dp"
-                        android:background="@drawable/custom_edit_text"
                         android:layout_weight="1">
 
-                    <EditText
-                        android:id="@+id/firstNameEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="45sp"
-                        android:backgroundTint="@color/colorTransparent"
-                        android:hint="First Name"
-                        android:text=""
-                        android:importantForAutofill="no"
-                        android:singleLine="true"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/colorHint"
-                        android:textSize="14sp" />
+                        <com.vgroup.c2c_embedded_library.FloatingLabelEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:labelText="First Name"
+                            app:labelColor="@android:color/white"
+                            android:id="@+id/firstNameEditText"
+                            android:importantForAutofill="no"
+                            android:singleLine="true"
+                            />
 
                     </RelativeLayout>
 
@@ -92,20 +89,19 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:paddingLeft="2dp"
-                        android:background="@drawable/custom_edit_text"
                         android:layout_weight="1">
 
-                    <EditText
-                        android:id="@+id/lastNameEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="45sp"
-                        android:backgroundTint="@color/colorTransparent"
-                        android:hint="Last Name"
-                        android:importantForAutofill="no"
-                        android:singleLine="true"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/colorHint"
-                        android:textSize="14sp" />
+                        <com.vgroup.c2c_embedded_library.FloatingLabelEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:labelText="Last Name"
+                            app:labelColor="@android:color/white"
+                            android:id="@+id/lastNameEditText"
+                            android:importantForAutofill="no"
+                            android:singleLine="true"
+                            />
+
+
 
                     </RelativeLayout>
 
@@ -122,14 +118,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginRight="4dp"
-                        android:background="@drawable/custom_edit_text"
-                        android:layout_weight="0.95">
+                        android:background="@drawable/rounded_edittext"
+                        android:layout_weight="0.95"
+                        android:layout_gravity="center_vertical"
+                        android:padding="6dp">
 
-                    <Spinner
-                        android:id="@+id/country_spinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="45sp"
-                        android:gravity="center" />
+                        <Spinner
+                            android:id="@+id/country_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="45sp"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            />
 
                     </RelativeLayout>
 
@@ -139,22 +139,19 @@
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
                         android:paddingLeft="2dp"
-                        android:background="@drawable/custom_edit_text"
+
                         android:layout_weight="0.95">
 
-                    <EditText
-                        android:id="@+id/numberEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="45sp"
-                        android:layout_marginLeft="2dp"
-                        android:layout_weight="0.95"
-                        android:backgroundTint="@color/colorTransparent"
-                        android:hint="Contact Number"
-                        android:importantForAutofill="no"
-                        android:singleLine="true"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/colorHint"
-                        android:textSize="14sp" />
+                        <com.vgroup.c2c_embedded_library.FloatingLabelEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:labelText="Contact Number"
+                            app:labelColor="@android:color/white"
+                            android:id="@+id/numberEditText"
+                            android:importantForAutofill="no"
+                            android:singleLine="true"
+                            />
+
 
                     </RelativeLayout>
 
@@ -187,26 +184,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp">
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="2dp"
-                        android:background="@drawable/custom_edit_text">
-
-                    <EditText
-                        android:id="@+id/mobileOTPEditText"
+                    <com.vgroup.c2c_embedded_library.FloatingLabelEditText
                         android:layout_width="match_parent"
-                        android:layout_height="45sp"
-                        android:backgroundTint="@color/colorTransparent"
-                        android:hint="Enter OTP"
+                        android:layout_height="wrap_content"
+                        app:labelText="Enter OTP"
+                        app:labelColor="@android:color/white"
+                        android:id="@+id/mobileOTPEditText"
+                        android:singleLine="true"
                         android:importantForAutofill="no"
                         android:maxLength="4"
-                        android:singleLine="true"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/colorHint"
-                        android:textSize="14sp"/>
-
-                    </RelativeLayout>
+                        />
 
                 </LinearLayout>
 
@@ -222,22 +209,19 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="2dp"
                         android:layout_weight="0.8"
-                        android:background="@drawable/custom_edit_text">
+                        >
 
-                    <EditText
-                        android:id="@+id/emailEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="45sp"
-                        android:layout_marginRight="2dp"
-                        android:layout_weight="0.8"
-                        android:backgroundTint="@color/colorTransparent"
-                        android:hint="Email address"
-                        android:text=""
-                        android:importantForAutofill="no"
-                        android:singleLine="true"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/colorHint"
-                        android:textSize="14sp" />
+                        <com.vgroup.c2c_embedded_library.FloatingLabelEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:labelText="Email address"
+                            app:labelColor="@android:color/white"
+                            android:id="@+id/emailEditText"
+                            android:singleLine="true"
+                            android:importantForAutofill="no"
+                            android:gravity="center_vertical"
+                            />
+
 
                     </RelativeLayout>
 
@@ -276,24 +260,55 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="2dp"
-                        android:background="@drawable/custom_edit_text">
+                        >
 
-                    <EditText
-                        android:id="@+id/emailOTPEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="45sp"
-                        android:backgroundTint="@color/colorTransparent"
-                        android:hint="Enter OTP"
-                        android:importantForAutofill="no"
-                        android:maxLength="4"
-                        android:singleLine="true"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/colorHint"
-                        android:textSize="14sp"/>
+                        <com.vgroup.c2c_embedded_library.FloatingLabelEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:labelText="Enter OTP"
+                            app:labelColor="@android:color/white"
+                            android:id="@+id/emailOTPEditText"
+                            android:singleLine="true"
+                            android:importantForAutofill="no"
+                            android:gravity="center_vertical"
+                            android:maxLength="4"
+                            />
 
                     </RelativeLayout>
 
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/subjectLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="2dp"
+                   >
+
+                    <com.vgroup.c2c_embedded_library.FloatingLabelEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:labelText="Enter subject"
+                        app:labelColor="@android:color/white"
+                        android:id="@+id/subjectEditText"
+                        android:singleLine="true"
+                        android:importantForAutofill="no"
+                        android:gravity="center_vertical"
+                        android:maxLength="160"
+                        android:lines="1"
+                        android:inputType="textMultiLine"
+                        />
+
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -310,22 +325,22 @@
                     android:paddingLeft="2dp"
                     android:background="@drawable/custom_edit_text">
 
-                <EditText
-                    android:id="@+id/messageEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:gravity="top"
-                    android:hint="Enter message"
-                    android:importantForAutofill="no"
-                    android:inputType="textMultiLine"
-                    android:lines="5"
-                    android:textSize="14sp"
-                    android:backgroundTint="@color/colorTransparent"
-                    android:padding="10dp"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/colorHint"
-                    android:maxLength="160"/>
+                    <EditText
+                        android:id="@+id/messageEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:gravity="top"
+                        android:hint="Enter message"
+                        android:importantForAutofill="no"
+                        android:inputType="textMultiLine"
+                        android:lines="5"
+                        android:textSize="14sp"
+                        android:backgroundTint="@color/colorTransparent"
+                        android:padding="10dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/colorHint"
+                        android:maxLength="160"/>
 
                 </RelativeLayout>
 
@@ -344,6 +359,72 @@
                 android:textSize="14sp"
                 android:visibility="gone"
                 />
+
+            <LinearLayout
+                android:id="@+id/attachLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/attach_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Attach File:"
+                    android:textSize="16sp"
+                    android:paddingStart="8dp"
+                    android:textColor="@android:color/white"
+                    android:paddingEnd="8dp"/>
+
+                <ImageView
+                    android:id="@+id/icon_attach"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/gallery"
+                    android:padding="5dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="or"
+                    android:textSize="16sp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:textColor="@android:color/white"/>
+
+                <ImageView
+                    android:id="@+id/icon_camera"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/camera"
+                    android:padding="5dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/icon_verified"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/verified_icon"
+                    android:padding="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:visibility="gone"
+                    />
+                <TextView
+                    android:id="@+id/previewImageTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Preview Image"
+                    android:textSize="16sp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:textColor="@android:color/white"/>
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <RelativeLayout

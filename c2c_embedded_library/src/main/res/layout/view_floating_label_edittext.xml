@@ -1,0 +1,39 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+
+
+    <!-- EditText with Rounded Border -->
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_edittext"
+        android:hint=""
+        android:padding="12dp"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"
+        />
+
+    <!-- Floating Label -->
+
+    <TextView
+        android:id="@+id/floating_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email*"
+        android:textSize="12sp"
+        android:textColor="@android:color/white"
+        android:visibility="visible"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="0dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_alignParentStart="true"
+        android:background="@color/colorBackground"/>
+
+</RelativeLayout>

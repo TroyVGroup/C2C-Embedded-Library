@@ -16,22 +16,21 @@ public class C2CConstants {
     public static final String CALL = "CALL";
     public static final String SMS = "SMS";
     public static final String EMAIL = "EMAIL";
-//    public static final String BASE_URL = "https://apis.vgroupinc.com/dev_c2c"; // Prod
-//    public static final String BASE_URL = "https://dev-api-t10.vgroupinc.com/dev_c2c_p82"; // DEV
-//    public static final String BASE_URL = "https://dev-api.vgroupinc.com/dev_c2c"; // DEV OLD
+
+
+
     public static final String CHANNEL_MODES = "/product/channel/ur/modes/";
     public static final String INITIATE_CALL = "/utilities/twilio/ur/initiate/call";
     public static final String GENERATE_TOKEN = "/utilities/twilio/ur/generate/token";
     public static final String SMS_OTP = "/utilities/twilio/ur/sms/otp";
     public static final String VERIFY_SMS_OTP = "/utilities/twilio/ur/sms/verify/otp";
-
     public static final String EMAIL_OTP = "/utilities/mail/ur/email/otp";
-
     public static final String VERIFY_EMAIL_OTP = "/utilities/mail/ur/email/verify/otp";
     public static final String SEND_SMS = "/utilities/twilio/ur/send/sms";
     public static final String SEND_EMAIL = "/utilities/mail/ur/send/mail";
     public static final String GEOCODE = "https://api.radar.io/v1/geocode/ip";
     public static final String IMAGES = "/product/channel/ur/";
-
+    public static final String UPLOAD_IMAGES = "/utilities/twilio/ur/upload/image";
+    public static final String DELETE_IMAGE = "/utilities/twilio/ur/delete/image";
 
 }
