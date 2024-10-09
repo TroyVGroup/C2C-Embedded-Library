@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -158,6 +159,19 @@ public class FloatingLabelEditText extends RelativeLayout {
 
     public void addTextChangedListener(TextWatcher textWatcher) {
         editText.addTextChangedListener(textWatcher);
+    }
+
+    public void setHeight(int height) {
+        // Change the height of the EditText programmatically
+        ViewGroup.LayoutParams params = editText.getLayoutParams();
+        params.height = dpToPx(height); // Set height in pixels
+        editText.setLayoutParams(params);
+    }
+
+    // Utility method to convert dp to pixels
+    private int dpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round(dp * density);
     }
 }
 

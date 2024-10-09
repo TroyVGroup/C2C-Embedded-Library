@@ -18,8 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:text="Call"
-            android:textColor="@color/white"
+            android:text="Call Form"
+            android:textColor="@color/bubbleColor"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -48,7 +48,6 @@
             android:id="@+id/details_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_below="@+id/title_txt_view"
             android:orientation="vertical">
 
@@ -59,10 +58,113 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/number_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="4dp"
+                        android:layout_weight="0.95"
+                        android:layout_gravity="end"
+                        >
+
+                        <Spinner
+                            android:id="@+id/country_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/rounded_edittext"
+                            android:gravity="bottom"
+                            />
+
+                        <TextView
+                            android:id="@+id/floating_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Country"
+                            android:textSize="12sp"
+                            android:textColor="@color/floatingLabelColor"
+                            android:visibility="visible"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="1dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:layout_alignParentStart="true"
+                            android:background="@color/colorBackground"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:paddingLeft="2dp"
+                        android:layout_weight="0.95">
+
+                        <com.vgroup.c2c_embedded_library.FloatingLabelEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:labelText="Contact Number"
+                            app:labelColor="@color/floatingLabelColor"
+                            android:id="@+id/numberEditText"
+                            android:importantForAutofill="no"
+                            android:singleLine="true"
+                            />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/get_code_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1.2"
+                        >
+
+                        <Button
+                            android:id="@+id/get_code_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|bottom"
+                            android:backgroundTint="@color/chipNbuttonColor"
+                            android:text="Get Code"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/mobileOTPLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <com.vgroup.c2c_embedded_library.FloatingLabelEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:labelText="Enter OTP"
+                        app:labelColor="@color/floatingLabelColor"
+                        android:id="@+id/mobileOTPEditText"
+                        android:singleLine="true"
+                        android:importantForAutofill="no"
+                        android:maxLength="4"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/name_layout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="2">
 
                     <RelativeLayout
@@ -76,7 +178,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:labelText="First Name"
-                            app:labelColor="@android:color/white"
+                            app:labelColor="@color/floatingLabelColor"
                             android:id="@+id/firstNameEditText"
                             android:importantForAutofill="no"
                             android:singleLine="true"
@@ -95,113 +197,23 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:labelText="Last Name"
-                            app:labelColor="@android:color/white"
+                            app:labelColor="@color/floatingLabelColor"
                             android:id="@+id/lastNameEditText"
                             android:importantForAutofill="no"
                             android:singleLine="true"
                             />
 
-
-
                     </RelativeLayout>
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/number_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="3">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="4dp"
-                        android:background="@drawable/rounded_edittext"
-                        android:layout_weight="0.95"
-                        android:layout_gravity="center_vertical"
-                        android:padding="6dp">
-
-                        <Spinner
-                            android:id="@+id/country_spinner"
-                            android:layout_width="match_parent"
-                            android:layout_height="45sp"
-                            android:layout_centerInParent="true"
-                            android:gravity="center"
-                            />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:layout_marginRight="4dp"
-                        android:paddingLeft="2dp"
-
-                        android:layout_weight="0.95">
-
-                        <com.vgroup.c2c_embedded_library.FloatingLabelEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:labelText="Contact Number"
-                            app:labelColor="@android:color/white"
-                            android:id="@+id/numberEditText"
-                            android:importantForAutofill="no"
-                            android:singleLine="true"
-                            />
-
-
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:id="@+id/get_code_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="4dp"
-                        android:layout_marginRight="2dp"
-                        android:layout_weight="1.2">
-
-                        <Button
-                            android:id="@+id/get_code_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:background="@drawable/custom_button"
-                            android:text="Get Code"
-                            android:textColor="@color/white"
-                            app:strokeColor="@color/white"
-                            app:strokeWidth="2dp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/mobileOTPLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
-
-                    <com.vgroup.c2c_embedded_library.FloatingLabelEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:labelText="Enter OTP"
-                        app:labelColor="@android:color/white"
-                        android:id="@+id/mobileOTPEditText"
-                        android:singleLine="true"
-                        android:importantForAutofill="no"
-                        android:maxLength="4"
-                        />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/email_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="3">
 
                     <RelativeLayout
@@ -215,7 +227,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:labelText="Email address"
-                            app:labelColor="@android:color/white"
+                            app:labelColor="@color/floatingLabelColor"
                             android:id="@+id/emailEditText"
                             android:singleLine="true"
                             android:importantForAutofill="no"
@@ -232,18 +244,26 @@
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="2dp"
                         android:layout_weight="2.2"
-                        android:gravity="right">
+                        android:gravity="bottom">
+
 
                         <Button
                             android:id="@+id/verifyEmailOtpButton"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:background="@drawable/custom_button"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|bottom"
+                            android:backgroundTint="@color/chipNbuttonColor"
                             android:text="Verify"
                             android:textColor="@color/white"
-                            app:strokeColor="@color/white"
-                            app:strokeWidth="2dp" />
+                            android:textSize="12sp"/>
+<!--                            android:layout_gravity="bottom"-->
+<!--                            android:backgroundTint="@color/chipNbuttonColor"-->
+<!--                            android:text="Verify"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            app:strokeColor="@color/white"-->
+<!--                            app:strokeWidth="2dp"-->
+<!--                            android:textSize="12sp"-->
+<!--                            />-->
 
                     </LinearLayout>
 
@@ -253,7 +273,7 @@
                     android:id="@+id/emailOTPLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <RelativeLayout
@@ -266,7 +286,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:labelText="Enter OTP"
-                            app:labelColor="@android:color/white"
+                            app:labelColor="@color/floatingLabelColor"
                             android:id="@+id/emailOTPEditText"
                             android:singleLine="true"
                             android:importantForAutofill="no"
@@ -278,69 +298,109 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/subjectLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:visibility="visible">
-
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/bubbleLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="2dp"
-                   >
+                    android:layout_marginTop="15dp">
 
-                    <com.vgroup.c2c_embedded_library.FloatingLabelEditText
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:labelText="Enter subject"
-                        app:labelColor="@android:color/white"
-                        android:id="@+id/subjectEditText"
-                        android:singleLine="true"
-                        android:importantForAutofill="no"
-                        android:gravity="center_vertical"
-                        android:maxLength="160"
-                        android:lines="1"
-                        android:inputType="textMultiLine"
-                        />
+                        android:background="@drawable/rounded_edittext"
+                        android:layout_marginTop="10dp"
+                        android:minHeight="45dp">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chip_group"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="5dp"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/context_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Context"
+                        android:textSize="12sp"
+                        android:textColor="@color/floatingLabelColor"
+                        android:visibility="visible"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="1dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:layout_alignParentStart="true"
+                        android:background="@color/colorBackground"/>
 
                 </RelativeLayout>
 
+                <LinearLayout
+                    android:id="@+id/subjectLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="2dp"
+                        >
+
+                        <com.vgroup.c2c_embedded_library.FloatingLabelEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:labelText="Enter subject"
+                            app:labelColor="@color/floatingLabelColor"
+                            android:id="@+id/subjectEditText"
+                            android:singleLine="true"
+                            android:importantForAutofill="no"
+                            android:gravity="center_vertical"
+                            android:maxLength="160"
+                            android:lines="1"
+                            android:inputType="textMultiLine"
+                            />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
+
+
 
             <LinearLayout
                 android:id="@+id/messageLayout"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="2dp"
-                    android:background="@drawable/custom_edit_text">
+                    android:paddingLeft="2dp">
 
-                    <EditText
+                    <com.vgroup.c2c_embedded_library.FloatingLabelEditText
                         android:id="@+id/messageEditText"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:gravity="top"
-                        android:hint="Enter message"
+                        app:labelText="Enter message"
+                        app:labelColor="@color/floatingLabelColor"
+                        android:singleLine="false"
                         android:importantForAutofill="no"
-                        android:inputType="textMultiLine"
+                        android:maxLength="160"
                         android:lines="5"
+                        android:inputType="textMultiLine"
                         android:textSize="14sp"
-                        android:backgroundTint="@color/colorTransparent"
-                        android:padding="10dp"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/colorHint"
-                        android:maxLength="160"/>
+                        android:minHeight="120dp"
+
+                        />
 
                 </RelativeLayout>
 
@@ -366,7 +426,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="2dp">
 
                 <TextView
                     android:id="@+id/attach_label"
@@ -375,7 +435,7 @@
                     android:text="Attach File:"
                     android:textSize="16sp"
                     android:paddingStart="8dp"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/chipNbuttonColor"
                     android:paddingEnd="8dp"/>
 
                 <ImageView
@@ -393,7 +453,7 @@
                     android:textSize="16sp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@color/chipNbuttonColor"/>
 
                 <ImageView
                     android:id="@+id/icon_camera"
@@ -420,7 +480,7 @@
                     android:textSize="16sp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@color/chipNbuttonColor"/>
 
             </LinearLayout>
 
@@ -432,7 +492,7 @@
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:layout_below="@+id/details_layout"
-            android:layout_marginTop="15dp"
+
             android:orientation="horizontal">
 
             <CheckBox
@@ -447,12 +507,11 @@
                 android:id="@+id/Terms_and_condition_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="3dp"
                 android:layout_gravity="center"
                 android:gravity="center_vertical"
                 android:layout_toRightOf="@+id/accept_terms_and_conditions"
                 android:text="I agree to the terms and conditions"
-                android:textColor="@color/white"
+                android:textColor="@color/greynWhite"
                 android:textSize="15sp" />
 
         </RelativeLayout>
@@ -463,30 +522,29 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/checkbox_Layout"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="0dp"
-            android:background="@drawable/custom_button"
+            android:backgroundTint="@color/chipNbuttonColor"
             android:text="Connect"
             android:textColor="@color/white"
-            app:strokeColor="@color/white"
-            app:strokeWidth="2dp" />
+            app:strokeColor="@color/white" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/connectButton"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:text="Powered by: "
-                android:textColor="@color/white"
+                android:textColor="@color/chipNbuttonColor"
                 android:textSize="14sp" />
 
             <TextView
@@ -495,8 +553,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:text="contexttocall.com"
                 android:textColor="#00a6ff"
                 android:textSize="16sp" />
