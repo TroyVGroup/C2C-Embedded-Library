@@ -30,7 +30,8 @@ import java.util.Map;
 
 public class NetworkManager {
 
-    public static final String BASE_URL = "https://dev-api-t10.vgroupinc.com/dev_c2c_p82";
+    public static final String BASE_URL = "https://apis.vgroupinc.com/test_c2c_p82";
+//    public static final String BASE_URL = "https://dev-api-t10.vgroupinc.com/dev_c2c_p82";
 //    public static final String BASE_IMAGE_URL = "https://0017-103-127-185-218.ngrok-free.app";
     public void getModes(final NetworkEventListener listener, String channelId, String c2cPackage, ImageView call_icon, ImageView msg_icon, ImageView email_icon) {
         String url = C2CConstants.CHANNEL_MODES + channelId;

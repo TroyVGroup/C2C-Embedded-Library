@@ -12,6 +12,8 @@ public class InitiateC2C {
     private String mailotp;
     private String countrycode;
     private String latLong;
+    private String extension;
+
 
     public String getFname() {
         return fname;
@@ -39,7 +41,6 @@ public class InitiateC2C {
 
     private String fname;
     private String lname;
-    private String extension;
     private String imageFolder;
 
     public String getImageFolder() {

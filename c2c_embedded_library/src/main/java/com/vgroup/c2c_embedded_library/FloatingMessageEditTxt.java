@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -21,10 +20,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class FloatingLabelEditText extends RelativeLayout {
+public class FloatingMessageEditTxt extends RelativeLayout {
 
     private TextView floatingLabel;
-    private TextView txtButton;
     private EditText editText;
 
     private SpannableString spannable;
@@ -33,28 +31,27 @@ public class FloatingLabelEditText extends RelativeLayout {
     private int labelColor;
     private boolean isLabelShown;
 
-    public FloatingLabelEditText(@NonNull Context context) {
+    public FloatingMessageEditTxt(@NonNull Context context) {
         super(context);
         init(context, null);
     }
 
-    public FloatingLabelEditText(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public FloatingMessageEditTxt(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public FloatingLabelEditText(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public FloatingMessageEditTxt(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
 
     private void init(Context context, AttributeSet attrs) {
         // Inflate the custom layout
-        LayoutInflater.from(context).inflate(R.layout.view_floating_label_edittext, this, true);
+        LayoutInflater.from(context).inflate(R.layout.message_edittext, this, true);
 
         // Bind the views
         floatingLabel = findViewById(R.id.floating_label);
-        txtButton = findViewById(R.id.txtButton);
         editText = findViewById(R.id.edit_text);
 
         // Set default properties
@@ -79,7 +76,7 @@ public class FloatingLabelEditText extends RelativeLayout {
         editText.setTextColor(labelColor);
 
         // Create a SpannableString from the full text
-         spannable = new SpannableString(labelText); // Label Text Define the text with an asterisk
+        spannable = new SpannableString(labelText); // Label Text Define the text with an asterisk
 
         // Find the index of the asterisk
         int asteriskIndex = labelText.indexOf("*");
@@ -96,8 +93,6 @@ public class FloatingLabelEditText extends RelativeLayout {
 
         editText.setHint(spannable);
         editText.setHintTextColor(Color.LTGRAY);
-        txtButton.setText(buttonName);
-        txtButton.setVisibility(GONE);
 
         // Add listeners to EditText
         setupEditTextListeners();
@@ -202,18 +197,6 @@ public class FloatingLabelEditText extends RelativeLayout {
         return Math.round(dp * density);
     }
 
-    public void setInputType() {
-        editText.setInputType(InputType.TYPE_CLASS_PHONE);
-    }
-    public void setButtonVisibility(boolean verify, String text, ButtonCallBack buttonCallBack) {
-        txtButton.setVisibility(verify?VISIBLE:GONE);
-        txtButton.setText(text);
-        txtButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buttonCallBack.onCLick(txtButton);
-            }
-        });
-    }
 }
+
 

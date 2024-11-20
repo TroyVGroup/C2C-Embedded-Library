@@ -33,7 +33,7 @@ public class C2CConstants {
     public static final String UPLOAD_IMAGES = "/utilities/twilio/ur/upload/image";
     public static final String DELETE_IMAGE = "/utilities/twilio/ur/delete/image";
 
-    public static  final String CALL_Form = "Call Form";
+    public static  final String CALL_Form = "Calling Form";
     public static  final String EMAIL_Form = "Email Form";
     public static  final String SMS_Form = "SMS Form";
 }

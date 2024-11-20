@@ -13,13 +13,15 @@ import androidx.core.content.ContextCompat
 import com.vgroup.c2c_embedded_library.pojo.Modes
 
 class MainActivity : AppCompatActivity() {
+
     var call_icon: ImageView? = null
     var msg_icon: ImageView? = null
     var email_icon: ImageView? = null
     var ALL_PERMISSIONS = 101
-    var channelId = "66db008ee3da2c94964af23e"//Dev82
+    var channelId = ""//Dev82
     var modes: Modes = Modes()
     var c2cVoiceActivity: C2CVoiceActivity? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

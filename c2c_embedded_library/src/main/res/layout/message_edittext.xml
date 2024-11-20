@@ -4,34 +4,26 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="6dp">
+        android:layout_height="120dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/rounded_edittext">
 
         <!-- EditText with Rounded Border -->
         <com.vgroup.c2c_embedded_library.PoppinsEditTextView
             android:id="@+id/edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_edittext"
-            android:gravity="center_vertical|start"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:lines="5"
             android:hint="Hello"
             android:padding="12dp"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:maxLength="160"
+            android:background="@null"/>
 
-        <com.vgroup.c2c_embedded_library.PoppinsBoldTextView
-            android:id="@+id/txtButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/edit_button"
-            android:gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingTop="2dp"
-            android:paddingRight="20dp"
-            android:layout_marginBottom="2dp"
-            android:text="Verify"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+
     </RelativeLayout>
 
 

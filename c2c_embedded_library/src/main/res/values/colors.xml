@@ -23,9 +23,12 @@
     <color name="blacknWhite">#000000</color>
     <color name="spinnerBackground">#ffffff</color>
     <color name="greynWhite">#3d3d3d</color>
+    <color name="edittextColor">#FF000000</color>
+    <color name="buttonBlueColor">#225E81</color>
 
 
 
     <color name="colorTransparent">#00000000</color>
     <color name="blue">#00a6ff</color>
+
 </resources>

@@ -25,4 +25,5 @@
     <color name="spinnerBackground">#000000</color>
     <color name="blacknWhite">#ffffff</color>
     <color name="greynWhite">#ffffff</color>
+    <color name="edittextColor">#FFFFFF</color>
 </resources>
