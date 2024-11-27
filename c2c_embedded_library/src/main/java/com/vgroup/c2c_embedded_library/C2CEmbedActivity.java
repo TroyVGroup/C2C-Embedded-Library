@@ -265,6 +265,7 @@ public class C2CEmbedActivity extends AppCompatActivity {
             ImageView poweredByImgView = dialog.findViewById(R.id.poweredByImgView);
             ChipGroup chipGroup = dialog.findViewById(R.id.chip_group);
             TextView count = dialog.findViewById(R.id.count);
+            RelativeLayout bubbleLayout = dialog.findViewById(R.id.bubbleLayout);
 
             setSpannableText(noteTextView,activity.getString(R.string.notes));
             if(modes.channel.preferences.isContextMandatory(id) ){
@@ -282,7 +283,11 @@ public class C2CEmbedActivity extends AppCompatActivity {
             }else {
                 setSpannableText(dialog.findViewById(R.id.attach_label),activity.getString(R.string.attach_image));
             }
-
+            if(modes.channel.preferences.isBubbleRequired(id) ){
+                bubbleLayout.setVisibility(View.VISIBLE);
+            }else {
+                bubbleLayout.setVisibility(View.GONE);
+            }
 
             if (id == C2CConstants.CALL) {
                 titleTextView.setText(C2CConstants.CALL_Form);
