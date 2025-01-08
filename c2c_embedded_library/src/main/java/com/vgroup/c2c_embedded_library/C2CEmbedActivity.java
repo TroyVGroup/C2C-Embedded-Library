@@ -166,6 +166,7 @@ public class C2CEmbedActivity extends AppCompatActivity {
         });
     }
 
+
     public void getCallDetails(@NotNull String channelId, @NotNull Modes modes, @NotNull String id) {
 
 
@@ -1043,7 +1044,6 @@ public class C2CEmbedActivity extends AppCompatActivity {
                         digits.append("1");
                         numberEditText.setText(digits);
                         sendDigits("1");
-//                        sendDigits(digits.toString());
                     });
                     two.setOnClickListener(view -> {
                         digits.append("2");
@@ -1054,7 +1054,6 @@ public class C2CEmbedActivity extends AppCompatActivity {
                         digits.append("3");
                         numberEditText.setText(digits);
                         sendDigits("3");
-//                        sendDigits(digits.toString());
                     });
                     four.setOnClickListener(view -> {
                         digits.append("4");
@@ -1090,7 +1089,6 @@ public class C2CEmbedActivity extends AppCompatActivity {
                         digits.append("0");
                         numberEditText.setText(digits);
                         sendDigits("0");
-//                        sendDigits(digits.toString());
                     });
                     asterisk.setOnClickListener(view -> {
                         digits.append("*");
@@ -1302,6 +1300,7 @@ public class C2CEmbedActivity extends AppCompatActivity {
                     audioSwitch.activate();
                     SoundPoolManager.getInstance(getApplicationContext()).stopRinging();
                     activeCall = call;
+
                 }
                 Log.d(TAG, "Connected");
             }

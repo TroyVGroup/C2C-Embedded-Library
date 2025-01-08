@@ -30,5 +30,6 @@
 
     <color name="colorTransparent">#00000000</color>
     <color name="blue">#00a6ff</color>
+    <color name="dialpad_color">#6f6c74</color>
 
 </resources>

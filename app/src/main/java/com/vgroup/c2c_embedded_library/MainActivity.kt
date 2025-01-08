@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     var msg_icon: ImageView? = null
     var email_icon: ImageView? = null
     var ALL_PERMISSIONS = 101
-    var channelId = ""//Dev82
+    var channelId = "673c82c1c1f63788c8d2c602"//Dev82
     var modes: Modes = Modes()
     var c2cVoiceActivity: C2CVoiceActivity? = null
 
@@ -87,4 +87,3 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-

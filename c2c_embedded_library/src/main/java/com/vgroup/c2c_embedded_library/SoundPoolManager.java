@@ -19,6 +19,7 @@ public class SoundPoolManager {
     private int disconnectSoundId;
     private static SoundPoolManager instance;
 
+
     private SoundPoolManager(Context context) {
         // AudioManager audio settings for adjusting the volume
         AudioManager audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);

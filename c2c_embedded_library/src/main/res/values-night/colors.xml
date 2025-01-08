@@ -26,4 +26,5 @@
     <color name="blacknWhite">#ffffff</color>
     <color name="greynWhite">#ffffff</color>
     <color name="edittextColor">#FFFFFF</color>
+    <color name="dialpad_color">#6f6c74</color>
 </resources>

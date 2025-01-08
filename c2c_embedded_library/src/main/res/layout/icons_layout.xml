@@ -1,30 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FFFFFF">
 
-    <ImageView
-        android:id="@+id/c2cCall"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_margin="10dp"
-        android:src="@drawable/call_icon"
-        android:visibility="invisible" />
+    <include
+        android:id="@+id/dialPadLayout"
+        layout="@layout/iot_dialpad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/call_icon_layout"
+        android:visibility="visible" />
 
-    <ImageView
-        android:id="@+id/c2cMsg"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/sms_icon"
-        android:visibility="invisible" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="8dp">
 
-    <ImageView
-        android:id="@+id/c2cEmail"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/mail_icon"
-        android:visibility="invisible" />
+        <ImageView
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/mute_black"
+            android:layout_marginEnd="8dp" />
+
+        <ImageView
+            android:layout_width="42dp"
+            android:layout_height="41dp"
+            android:src="@drawable/dialpad_black"
+            android:id="@+id/mute_action_fab" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="4dp">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:id="@+id/c2cCall"
+            android:background="@drawable/call_icon"/>
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:id="@+id/c2cMsg"
+            android:background="@drawable/sms_icon"/>
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/c2cEmail"
+            android:background="@drawable/mail_icon"/>
+
+    </LinearLayout>
+
 </LinearLayout>
+
